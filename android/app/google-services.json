@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "89066243062",
+    "project_id": "intellitutor-7fa89",
+    "storage_bucket": "intellitutor-7fa89.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:89066243062:android:7cdb68428dadac5fb23dd7",
+        "android_client_info": {
+          "package_name": "com.example.intellitutor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "89066243062-mv9jqgpvsm9pb2p2qj97bqg6ous6mc4a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbJbYJ-L_86HaeWm83DN3Ct5tnG5UQvWs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "89066243062-mv9jqgpvsm9pb2p2qj97bqg6ous6mc4a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
