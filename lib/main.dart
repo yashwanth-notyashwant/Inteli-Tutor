@@ -42,7 +42,9 @@ class AuthWrapper extends StatelessWidget {
           if (user == null) {
             return LoginPage();
           } else {
-            return const CreateUserScreen();
+            print("----------------------------------------------");
+            print(user.email);
+            return CreateUserScreen(user.email.toString());
           }
         } else {
           return const Scaffold(

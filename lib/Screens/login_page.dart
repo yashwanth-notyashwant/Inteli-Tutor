@@ -202,9 +202,6 @@ class _LoginFormState extends State<LoginForm> {
 
                       stopLoading();
                       return;
-                      // }
-                      // stopLoading();
-                      // return;
                     }
                   }),
                   child: const Text(
@@ -241,7 +238,8 @@ class _LoginFormState extends State<LoginForm> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const CreateUserScreen()),
+                            builder: (context) =>
+                                CreateUserScreen(user.email.toString())),
                       );
                     }
 
