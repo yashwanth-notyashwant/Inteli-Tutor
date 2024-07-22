@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intellitutor/Providers/profile.dart';
+import 'package:intellitutor/Screens/course_list_screen.dart';
 import 'package:loading_btn/loading_btn.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
@@ -23,6 +24,19 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
     final UserDataProvider _userDataProvider = UserDataProvider();
     _userDataProvider.checkUserExists(widget.email).then((userExists) {
       if (userExists) {
+        //
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => CourseListScreen(
+              email: widget.email,
+              numb: 1,
+              itemColor: Color.fromARGB(255, 255, 197, 36),
+              itemColor2: Color(0xFF00FFFF),
+            ),
+          ),
+        );
+
         print("================= Going to home screen ============");
       } else {
         // User hasnt checked this page out yet
