@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intellitutor/Consts/constants.dart';
 
 class CardRounded extends StatefulWidget {
   final List<String> items;
@@ -8,20 +9,12 @@ class CardRounded extends StatefulWidget {
 }
 
 class _CardRoundedState extends State<CardRounded> {
-  final List<Color> colors = [
-    Color.fromARGB(255, 255, 197, 36),
-    Color.fromARGB(255, 138, 193, 134),
-    Color(0xFF00FFFF),
-    Color.fromARGB(255, 255, 212, 127),
-    Color.fromARGB(255, 120, 104, 216),
-  ];
-
   // Define the list of items
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 60),
+      margin: const EdgeInsets.only(bottom: 60),
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(40.0),
@@ -42,12 +35,12 @@ class _CardRoundedState extends State<CardRounded> {
                   height: 150,
                   child: Card(
                     // color: itemColor,
-                    color: Color.fromARGB(255, 12, 12, 12),
+                    color: const Color.fromARGB(255, 12, 12, 12),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(40.0),
-                      side: BorderSide(
-                        color: Colors.white, // Adjust border color as needed
-                        width: 1.0, // Adjust border width as needed
+                      side: const BorderSide(
+                        color: Colors.white,
+                        width: 1.0,
                       ),
                     ),
                     child: Padding(
@@ -55,12 +48,11 @@ class _CardRoundedState extends State<CardRounded> {
                       child: ListTile(
                         splashColor: Colors.transparent,
                         leading: Hero(
-                          tag:
-                              'circle1-$index', // Unique tag for the first circle hero animation
+                          tag: 'circle1-$index',
                           child: Container(
-                            padding: EdgeInsets.only(top: 10),
+                            padding: const EdgeInsets.only(top: 10),
                             child: SizedBox(
-                              width: 36, // Width to accommodate the two circles
+                              width: 36,
                               child: Stack(
                                 children: [
                                   Positioned(
@@ -69,15 +61,13 @@ class _CardRoundedState extends State<CardRounded> {
                                       width: 24,
                                       height: 24,
                                       decoration: BoxDecoration(
-                                        color:
-                                            itemColor, // Color of the first circle
+                                        color: itemColor,
                                         shape: BoxShape.circle,
                                       ),
                                     ),
                                   ),
                                   Positioned(
-                                    left:
-                                        12, // Adjust this value to control the overlap
+                                    left: 12,
                                     child: Container(
                                       width: 24,
                                       height: 24,
@@ -93,10 +83,11 @@ class _CardRoundedState extends State<CardRounded> {
                           ),
                         ), //
                         title: Text(
-                          "${widget.items[index]}",
-                          style: TextStyle(color: Colors.white),
+                          widget.items[index],
+                          style: const TextStyle(color: Colors.white),
                         ),
-                        trailing: Icon(Icons.chevron_right),
+                        // subtitle: Icon(Icons.star), here i wanna add some section numbers
+                        trailing: const Icon(Icons.chevron_right),
                         onTap: () {},
                       ),
                     ),

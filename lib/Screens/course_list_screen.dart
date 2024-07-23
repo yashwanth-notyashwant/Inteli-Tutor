@@ -39,10 +39,27 @@ class _CourseListScreenState extends State<CourseListScreen> {
       } else {
         setState(() {
           print("No courses found ");
-          items = ['Nott found error'];
+          items = [];
           isLoading = false;
         });
       }
+    });
+  }
+
+  Future<void> fetchsdfCourse() async {
+    setState(() {
+      isLoading = true;
+    });
+    final CourseProvider courseProvider = CourseProvider();
+    var temp = (await courseProvider.fetchAllCourses(widget.email));
+    if (temp == null) {
+      items = [];
+    } else {
+      items = temp;
+    }
+
+    setState(() {
+      isLoading = false;
     });
   }
 
@@ -85,7 +102,8 @@ class _CourseListScreenState extends State<CourseListScreen> {
               startLoading();
               final courseProvider = CourseProvider();
               await courseProvider
-                  .createOrUpdateCourse(widget.email, "csadasg ", {});
+                  .createOrUpdateCourse(widget.email, "${DateTime.now()} ", {});
+              await fetchsdfCourse();
               stopLoading();
             }
           }),
@@ -162,8 +180,27 @@ class _CourseListScreenState extends State<CourseListScreen> {
                       child: LoadingAnimationWidget.staggeredDotsWave(
                         color: Color.fromARGB(255, 255, 255, 255),
                         size: 150,
-                      ))
-                  : CardRounded(items),
+                      ),
+                    )
+                  : items.isEmpty
+                      ? Column(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(
+                                  top:
+                                      MediaQuery.of(context).size.height * 0.3),
+                              height: 200,
+                              width: 200,
+                              child: Image.asset(
+                                'lib/assets/not_found_image_asset.png',
+                                fit: BoxFit
+                                    .contain, // Ensure the image fits within the container
+                              ),
+                            ),
+                            const Text("No course found, try creating some !"),
+                          ],
+                        )
+                      : CardRounded(items),
             ],
           ),
         ),

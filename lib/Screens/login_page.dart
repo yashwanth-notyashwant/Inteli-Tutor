@@ -18,7 +18,7 @@ class LoginPage extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: Scaffold(
+      home: const Scaffold(
         body: LoginForm(),
       ),
     );
@@ -26,6 +26,8 @@ class LoginPage extends StatelessWidget {
 }
 
 class LoginForm extends StatefulWidget {
+  const LoginForm({super.key});
+
   @override
   State<LoginForm> createState() => _LoginFormState();
 }
