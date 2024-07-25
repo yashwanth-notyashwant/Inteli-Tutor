@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intellitutor/Providers/courses_list.dart';
 
-import 'package:intellitutor/Widgets/card_desc_widget.dart';
+import 'package:intellitutor/Widgets/card_desc_widget_course.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:loading_btn/loading_btn.dart';
 import '../Widgets/bottom_sheet_message.dart';
@@ -121,6 +121,8 @@ class _CourseListScreenState extends State<CourseListScreen> {
               child: Form(
                 key: _formKey,
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     TextFormField(
@@ -196,10 +198,13 @@ class _CourseListScreenState extends State<CourseListScreen> {
                                 endGoals,
                               );
                               if (stat == true) {
-                                await fetchsdfCourse();
+                                fetchsdfCourse();
+                                Navigator.pop(
+                                    context); // successful addition of course
                               }
 
                               if (stat == false) {
+                                // failed to genereate course
                                 Future.delayed(Duration(milliseconds: 20), () {
                                   OpenBottomSheet instance = OpenBottomSheet();
                                   instance.openBottomSheet(context,
@@ -232,10 +237,10 @@ class _CourseListScreenState extends State<CourseListScreen> {
     }
 
     return Scaffold(
-      floatingActionButtonLocation:
-          FloatingActionButtonLocation.miniStartDocked,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(
+            left: 20,
             right: 20,
             top:
                 20), // as startdocked will give starting a bit of padding for some reason
@@ -263,7 +268,7 @@ class _CourseListScreenState extends State<CourseListScreen> {
             }
           }),
           child: const Text(
-            'Floating button ',
+            'Create Course',
             textAlign: TextAlign.center,
             style: TextStyle(
                 fontSize: 20, fontWeight: FontWeight.w300, color: Colors.black),
@@ -344,8 +349,8 @@ class _CourseListScreenState extends State<CourseListScreen> {
                               margin: EdgeInsets.only(
                                   top:
                                       MediaQuery.of(context).size.height * 0.3),
-                              height: 200,
-                              width: 200,
+                              height: 110,
+                              width: 110,
                               child: Image.asset(
                                 'lib/assets/not_found_image_asset.png',
                                 fit: BoxFit
@@ -355,7 +360,10 @@ class _CourseListScreenState extends State<CourseListScreen> {
                             const Text("No course found, try creating some !"),
                           ],
                         )
-                      : CardRounded(items),
+                      : CardRounded(
+                          items: items,
+                          email: widget.email,
+                        ),
             ],
           ),
         ),

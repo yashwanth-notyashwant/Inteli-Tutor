@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:intellitutor/Consts/constants.dart';
+import 'package:intellitutor/Screens/course_section_list.dart';
 
 class CardRounded extends StatefulWidget {
+  final String? email;
+  final String? courseName;
   final List<String> items;
-  CardRounded(this.items);
+  CardRounded({required this.items, this.email, this.courseName});
   @override
   State<CardRounded> createState() => _CardRoundedState();
 }
@@ -47,48 +50,57 @@ class _CardRoundedState extends State<CardRounded> {
                       padding: const EdgeInsets.all(16.0),
                       child: ListTile(
                         splashColor: Colors.transparent,
-                        leading: Hero(
-                          tag: 'circle1-$index',
-                          child: Container(
-                            padding: const EdgeInsets.only(top: 10),
-                            child: SizedBox(
-                              width: 36,
-                              child: Stack(
-                                children: [
-                                  Positioned(
-                                    left: 0,
-                                    child: Container(
-                                      width: 24,
-                                      height: 24,
-                                      decoration: BoxDecoration(
-                                        color: itemColor,
-                                        shape: BoxShape.circle,
-                                      ),
+                        leading: Container(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: SizedBox(
+                            width: 36,
+                            child: Stack(
+                              children: [
+                                Positioned(
+                                  left: 0,
+                                  child: Container(
+                                    width: 24,
+                                    height: 24,
+                                    decoration: BoxDecoration(
+                                      color: itemColor,
+                                      shape: BoxShape.circle,
                                     ),
                                   ),
-                                  Positioned(
-                                    left: 12,
-                                    child: Container(
-                                      width: 24,
-                                      height: 24,
-                                      decoration: BoxDecoration(
-                                        color: itemColor2,
-                                        shape: BoxShape.circle,
-                                      ),
+                                ),
+                                Positioned(
+                                  left: 12,
+                                  child: Container(
+                                    width: 24,
+                                    height: 24,
+                                    decoration: BoxDecoration(
+                                      color: itemColor2,
+                                      shape: BoxShape.circle,
                                     ),
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                           ),
-                        ), //
+                        ),
+
                         title: Text(
                           widget.items[index],
                           style: const TextStyle(color: Colors.white),
                         ),
                         // subtitle: Icon(Icons.star), here i wanna add some section numbers
                         trailing: const Icon(Icons.chevron_right),
-                        onTap: () {},
+
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => CourseSecionsScreen(
+                                email: widget.email!,
+                                courseName: widget.items[index],
+                              ),
+                            ),
+                          );
+                        },
                       ),
                     ),
                   ),

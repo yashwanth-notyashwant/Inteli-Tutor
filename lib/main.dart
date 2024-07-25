@@ -12,14 +12,14 @@ Future<void> main() async {
 
   //
 
-  await dotenv.load(fileName: ".env");
-  String apiKey = dotenv.env['API_KEY']!;
+  // await dotenv.load(fileName: ".env");
+  // String apiKey = dotenv.env['API_KEY']!;
 
-  final model = GenerativeModel(model: 'gemini-1.5-flash', apiKey: apiKey);
+  // final model = GenerativeModel(model: 'gemini-1.5-flash', apiKey: apiKey);
 
-  final content = [Content.text('Write a story about a AI and magic')];
-  final response = await model.generateContent(content);
-  print(response.text);
+  // final content = [Content.text('Write a story about a AI and magic')];
+  // final response = await model.generateContent(content);
+  // print(response.text);
 
 //
   await Firebase.initializeApp(
