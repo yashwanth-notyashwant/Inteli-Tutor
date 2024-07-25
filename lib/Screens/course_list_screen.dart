@@ -1,10 +1,10 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intellitutor/Providers/courses_list.dart';
 
 import 'package:intellitutor/Widgets/card_desc_widget.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:loading_btn/loading_btn.dart';
+import '../Widgets/bottom_sheet_message.dart';
 
 class CourseListScreen extends StatefulWidget {
   final int numb;
@@ -75,6 +75,162 @@ class _CourseListScreenState extends State<CourseListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    void openBottomSheetChoice(BuildContext context) {
+      final _formKey = GlobalKey<FormState>();
+      String topicName = '';
+      String complexity = 'Beginner'; // Default value
+      String endGoals = '';
+
+      showModalBottomSheet(
+        isScrollControlled: true,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            top: Radius.circular(40.0),
+          ),
+        ),
+        context: context,
+        builder: (BuildContext context) {
+          return SingleChildScrollView(
+            child: Container(
+              padding: EdgeInsets.only(
+                left: 20,
+                top: 20,
+                right: 20,
+                bottom: MediaQuery.of(context).viewInsets.bottom,
+              ),
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.vertical(
+                  top: Radius.circular(40.0),
+                ),
+                border: Border(
+                  top: BorderSide(
+                    color: Color.fromARGB(255, 231, 231, 231),
+                    width: 1.0,
+                  ),
+                  left: BorderSide(
+                    color: Color.fromARGB(255, 231, 231, 231),
+                    width: 1.0,
+                  ),
+                  right: BorderSide(
+                    color: Color.fromARGB(255, 231, 231, 231),
+                    width: 1.0,
+                  ),
+                  bottom: BorderSide.none,
+                ),
+              ),
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TextFormField(
+                      decoration: InputDecoration(labelText: 'Topic Name'),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter a topic name';
+                        }
+                        return null;
+                      },
+                      onChanged: (value) {
+                        topicName = value;
+                      },
+                    ),
+                    DropdownButtonFormField<String>(
+                      value: complexity,
+                      decoration: InputDecoration(labelText: 'Complexity'),
+                      items: ['Beginner', 'Advanced', 'Expert']
+                          .map((String value) => DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              ))
+                          .toList(),
+                      onChanged: (newValue) {
+                        complexity = newValue!;
+                      },
+                    ),
+                    TextFormField(
+                      decoration: InputDecoration(labelText: 'End Goals'),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter end goals';
+                        }
+                        return null;
+                      },
+                      onChanged: (value) {
+                        endGoals = value;
+                      },
+                    ),
+                    const SizedBox(height: 16),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20),
+                      child: LoadingBtn(
+                        height: 60,
+                        borderRadius: 20,
+                        animate: true,
+                        color: const Color.fromARGB(255, 236, 240, 243),
+                        width: MediaQuery.of(context).size.width,
+                        loader: Container(
+                          padding: const EdgeInsets.all(10),
+                          width: 40,
+                          height: 40,
+                          child: const CircularProgressIndicator(
+                            valueColor:
+                                AlwaysStoppedAnimation<Color>(Colors.white),
+                          ),
+                        ),
+                        onTap: (startLoading, stopLoading, btnState) async {
+                          if (btnState == ButtonState.idle) {
+                            if (_formKey.currentState!.validate()) {
+                              startLoading();
+                              print('Topic Name: $topicName');
+                              print('Complexity: $complexity');
+                              print('End Goals: $endGoals');
+
+                              final courseProvider = CourseProvider();
+                              bool stat =
+                                  await courseProvider.createOrUpdateCourse(
+                                widget.email,
+                                topicName,
+                                {},
+                                complexity,
+                                endGoals,
+                              );
+                              if (stat == true) {
+                                await fetchsdfCourse();
+                              }
+
+                              if (stat == false) {
+                                Future.delayed(Duration(milliseconds: 20), () {
+                                  OpenBottomSheet instance = OpenBottomSheet();
+                                  instance.openBottomSheet(context,
+                                      "Content not suitable for learning or Explicit content warning, Candidate was blocked due to safety Error code #34624e");
+                                });
+                                Navigator.pop(context);
+                              }
+                              stopLoading();
+                            }
+                          }
+                        },
+                        child: const Text(
+                          'Submit',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w300,
+                            color: Colors.black,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
+      );
+    }
+
     return Scaffold(
       floatingActionButtonLocation:
           FloatingActionButtonLocation.miniStartDocked,
@@ -87,7 +243,7 @@ class _CourseListScreenState extends State<CourseListScreen> {
           height: 60,
           borderRadius: 20,
           animate: true,
-          color: Color.fromARGB(255, 236, 240, 243),
+          color: const Color.fromARGB(255, 236, 240, 243),
           width: MediaQuery.of(context).size.width,
           loader: Container(
             padding: const EdgeInsets.all(10),
@@ -100,10 +256,9 @@ class _CourseListScreenState extends State<CourseListScreen> {
           onTap: ((startLoading, stopLoading, btnState) async {
             if (btnState == ButtonState.idle) {
               startLoading();
-              final courseProvider = CourseProvider();
-              await courseProvider
-                  .createOrUpdateCourse(widget.email, "${DateTime.now()} ", {});
-              await fetchsdfCourse();
+
+              openBottomSheetChoice(context);
+
               stopLoading();
             }
           }),
@@ -115,7 +270,7 @@ class _CourseListScreenState extends State<CourseListScreen> {
           ), //add some styles
         ),
       ),
-      backgroundColor: Color.fromARGB(255, 0, 0, 0),
+      backgroundColor: const Color.fromARGB(255, 0, 0, 0),
       body: SingleChildScrollView(
         child: Container(
           child: Column(
