@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 import 'package:intellitutor/Providers/courses_list.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
@@ -6,11 +7,18 @@ class DescWidget extends StatefulWidget {
   final String email;
   final String sectionName;
   final String courseName;
+  final int numb;
+  final Color itemColor;
+  final Color itemColor2;
 
-  DescWidget(
-      {required this.email,
-      required this.sectionName,
-      required this.courseName});
+  DescWidget({
+    required this.email,
+    required this.sectionName,
+    required this.courseName,
+    required this.itemColor,
+    required this.itemColor2,
+    required this.numb,
+  });
 
   @override
   State<DescWidget> createState() => _DescWidgetState();
@@ -53,9 +61,13 @@ class _DescWidgetState extends State<DescWidget> {
                 .createDescAI(widget.email, queryExists.toString(),
                     widget.sectionName, widget.courseName)
                 .then((resp) {
-              if (resp == "") {
+              if (resp.toString() == "") {
                 print("checker 6");
                 desc = "Something went wrong";
+
+                setState(() {
+                  isLoading = false;
+                });
               } else {
                 print("checker 7");
                 desc = resp.toString();
@@ -87,19 +99,59 @@ class _DescWidgetState extends State<DescWidget> {
             children: [
               Row(
                 children: [
+                  Hero(
+                    tag: 'circle1-$num',
+                    child: Container(
+                      width: 80,
+                      height: 80,
+                      padding: EdgeInsets.only(left: 30, top: 40),
+                      child: SizedBox(
+                        width: 36,
+                        child: Stack(
+                          children: [
+                            Positioned(
+                              left: 0,
+                              child: Container(
+                                width: 30,
+                                height: 30,
+                                decoration: BoxDecoration(
+                                  color: widget.itemColor,
+                                  shape: BoxShape.circle,
+                                ),
+                              ),
+                            ),
+                            Positioned(
+                              left: 16,
+                              child: Container(
+                                width: 30,
+                                height: 30,
+                                decoration: BoxDecoration(
+                                  color: widget.itemColor2,
+                                  shape: BoxShape.circle,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
                   Container(
                     width: MediaQuery.of(context).size.width * 0.80,
                     padding: const EdgeInsets.only(top: 45, left: 10),
                     height: 120,
-                    child: const Text(
-                      " Explanation",
-                      style: TextStyle(
-                        color: Color.fromARGB(255, 231, 231, 231),
-                        fontSize: 35,
-                        fontWeight: FontWeight.bold,
+                    child: Animate(
+                      effects: [FadeEffect(), SlideEffect()],
+                      child: const Text(
+                        "Explanation",
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 231, 231, 231),
+                          fontSize: 35,
+                          fontWeight: FontWeight.bold,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                        // maxLines: 1,
                       ),
-                      overflow: TextOverflow.ellipsis,
-                      // maxLines: 1,
                     ),
                   ),
                 ],
@@ -134,17 +186,22 @@ class _DescWidgetState extends State<DescWidget> {
                       : Container(
                           margin: const EdgeInsets.only(bottom: 60),
                           child: Card(
-                            color: const Color.fromARGB(255, 36, 35, 35),
+                            color: Color.fromARGB(255, 27, 26, 26),
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(60.0),
+                              borderRadius: BorderRadius.circular(40.0),
                             ),
                             child: Container(
-                              padding: EdgeInsets.all(30),
+                              padding: EdgeInsets.only(
+                                  top: 60, left: 30, right: 30, bottom: 20),
                               child: Text(
                                   style: const TextStyle(
                                       color:
-                                          Color.fromARGB(255, 238, 233, 233)),
-                                  desc),
+                                          Color.fromARGB(255, 241, 239, 239)),
+                                  '''
+# ${widget.sectionName}
+
+ ''' +
+                                      '''$desc'''),
                             ),
                           ),
                         )

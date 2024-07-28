@@ -57,10 +57,10 @@ class _CourseSecionsScreenState extends State<CourseSecionsScreen> {
                 children: [
                   Container(
                     width: MediaQuery.of(context).size.width * 0.80,
-                    padding: const EdgeInsets.only(top: 45, left: 10),
-                    height: 120,
-                    child: Text(
-                      " Sections",
+                    padding: const EdgeInsets.only(top: 80, left: 10),
+                    height: 160,
+                    child: const Text(
+                      "  Sections",
                       style: TextStyle(
                         color: Color.fromARGB(255, 231, 231, 231),
                         fontSize: 35,

@@ -52,7 +52,7 @@ class CourseProvider {
 
       courseData['reference'] = fields;
       courseData['query'] =
-          "Generate a paragraph of about 500-1000 words about the section name, the word limit isn't fixed but should be based on content. This comes under the topic of $courseName, the complexity should be $complexity, and the end goal of this section is to $endGoal. The response should be in a paragraph format.";
+          "Generate a paragraph (having points in bullet format along with some explanation if necessary )of about 500-1000 words about the section name, the word limit isn't fixed but should be based on content. This comes under the topic of $courseName, the complexity should be $complexity, and the end goal of this section is to $endGoal. The response should be in a paragraph format.";
 
       // Update Firestore
       final docRef = FirebaseFirestore.instance

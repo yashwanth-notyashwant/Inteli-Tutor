@@ -10,8 +10,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  //
-
   // await dotenv.load(fileName: ".env");
   // String apiKey = dotenv.env['API_KEY']!;
 
@@ -21,7 +19,6 @@ Future<void> main() async {
   // final response = await model.generateContent(content);
   // print(response.text);
 
-//
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );

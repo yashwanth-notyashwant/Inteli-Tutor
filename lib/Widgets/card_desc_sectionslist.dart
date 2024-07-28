@@ -42,8 +42,8 @@ class _CardRoundedSectionsState extends State<CardRoundedSections> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(40.0),
                       side: const BorderSide(
-                        color: Colors.white,
-                        width: 1.0,
+                        color: Color.fromARGB(255, 190, 190, 190),
+                        width: 0.5,
                       ),
                     ),
                     child: Padding(
@@ -101,6 +101,9 @@ class _CardRoundedSectionsState extends State<CardRoundedSections> {
                                 email: widget.email!,
                                 courseName: widget.courseName!,
                                 sectionName: widget.items[index],
+                                itemColor: itemColor,
+                                itemColor2: itemColor2,
+                                numb: index,
                               ),
                             ),
                           );

@@ -285,44 +285,10 @@ class _CourseListScreenState extends State<CourseListScreen> {
               Row(
                 children: [
                   Container(
-                    width: 80,
-                    height: 80,
-                    padding: EdgeInsets.only(left: 30, top: 40),
-                    child: SizedBox(
-                      width: 36,
-                      child: Stack(
-                        children: [
-                          Positioned(
-                            left: 0,
-                            child: Container(
-                              width: 30,
-                              height: 30,
-                              decoration: BoxDecoration(
-                                color: widget.itemColor,
-                                shape: BoxShape.circle,
-                              ),
-                            ),
-                          ),
-                          Positioned(
-                            left: 16,
-                            child: Container(
-                              width: 30,
-                              height: 30,
-                              decoration: BoxDecoration(
-                                color: widget.itemColor2,
-                                shape: BoxShape.circle,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.only(top: 45, left: 10),
-                    height: 120,
+                    padding: const EdgeInsets.only(top: 80, left: 10),
+                    height: 160,
                     child: const Text(
-                      "Courses",
+                      "  Courses",
                       style: TextStyle(
                         color: Color.fromARGB(255, 231, 231, 231),
                         fontSize: 35,
