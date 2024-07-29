@@ -177,6 +177,7 @@ class _LoginFormState extends State<LoginForm> {
                       } on FirebaseAuthException catch (e) {
                         if (e.code == 'user-not-found') {
                           try {
+                            // ignore: unused_local_variable
                             final credential = await FirebaseAuth.instance
                                 .createUserWithEmailAndPassword(
                               email: emailController.text.toString().trim(),

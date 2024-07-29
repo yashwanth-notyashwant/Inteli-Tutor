@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intellitutor/Consts/constants.dart';
 import 'package:intellitutor/Screens/course_section_list.dart';
+import 'package:intellitutor/Screens/distrubutor_screen.dart';
 
 class CardRounded extends StatefulWidget {
   final String? email;
@@ -94,7 +95,10 @@ class _CardRoundedState extends State<CardRounded> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => CourseSecionsScreen(
+                              builder: (context) => DistScreen(
+                                //   //
+                                //   CourseSecionsScreen(
+                                items: [],
                                 email: widget.email!,
                                 courseName: widget.items[index],
                               ),

@@ -1,11 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:google_generative_ai/google_generative_ai.dart';
+// // import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:intellitutor/Screens/login_page.dart';
 import 'package:intellitutor/Screens/create_user_screen.dart';
 import 'package:intellitutor/firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
+// // import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -37,6 +37,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: const ColorScheme.dark(),
         useMaterial3: true,
+        bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+          unselectedItemColor: Colors.white,
+          selectedItemColor: Colors.white, // Color for the filled icon
+        ),
+        splashColor: Colors.transparent, // Disable splash color
       ),
       home: AuthWrapper(),
     );

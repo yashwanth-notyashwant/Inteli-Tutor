@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intellitutor/Providers/courses_list.dart';
 import 'package:intellitutor/Widgets/card_desc_sectionslist.dart';
-import 'package:intellitutor/Widgets/card_desc_widget_course.dart';
-import 'package:intellitutor/Screens/desc_page.dart';
+
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class CourseSecionsScreen extends StatefulWidget {

@@ -236,122 +236,86 @@ class _CourseListScreenState extends State<CourseListScreen> {
       );
     }
 
-    return Scaffold(
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      // floatingActionButton: Padding( just for now not req as planning on adding a bottom nav , will see in future
-      //   padding: const EdgeInsets.only(
-      //       left: 20,
-      //       right: 20,
-      //       top:
-      //           20), // as startdocked will give starting a bit of padding for some reason
-      //   child: LoadingBtn(
-      //     height: 60,
-      //     borderRadius: 20,
-      //     animate: true,
-      //     color: const Color.fromARGB(255, 236, 240, 243),
-      //     width: MediaQuery.of(context).size.width,
-      //     loader: Container(
-      //       padding: const EdgeInsets.all(10),
-      //       width: 40,
-      //       height: 40,
-      //       child: const CircularProgressIndicator(
-      //         valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-      //       ),
-      //     ),
-      //     onTap: ((startLoading, stopLoading, btnState) async {
-      //       if (btnState == ButtonState.idle) {
-      //         startLoading();
-
-      //         openBottomSheetChoice(context);
-
-      //         stopLoading();
-      //       }
-      //     }),
-      //     child: const Text(
-      //       'Create Course',
-      //       textAlign: TextAlign.center,
-      //       style: TextStyle(
-      //           fontSize: 20, fontWeight: FontWeight.w300, color: Colors.black),
-      //     ), //add some styles
-      //   ),
-      // ),
-      backgroundColor: const Color.fromARGB(255, 0, 0, 0),
-      body: SingleChildScrollView(
-        child: Container(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.only(top: 80, left: 10),
-                    height: 160,
-                    child: const Text(
-                      "  Courses",
-                      style: TextStyle(
-                        color: Color.fromARGB(255, 231, 231, 231),
-                        fontSize: 35,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                  Container(
-                      padding: const EdgeInsets.only(
-                        top: 70,
-                        right: 20,
-                      ),
+    return MaterialApp(
+      home: Scaffold(
+        body: SingleChildScrollView(
+          child: Container(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.only(top: 80, left: 10),
                       height: 160,
-                      child: InkWell(
-                        onTap: () {
-                          openBottomSheetChoice(context);
-                        },
-                        splashColor: Colors.transparent,
-                        child: Container(
-                          color: Colors.black,
-                          child: const Icon(
-                            Icons.add_circle,
-                            color: Colors.white,
-                            size: 38.0,
-                          ),
+                      child: const Text(
+                        "  Courses",
+                        style: TextStyle(
+                          color: Color.fromARGB(255, 231, 231, 231),
+                          fontSize: 35,
+                          fontWeight: FontWeight.bold,
                         ),
-                      )),
-                ],
-              ),
-              isLoading
-                  ? Container(
-                      margin: EdgeInsets.only(
-                          top: MediaQuery.of(context).size.height * 0.3),
-                      child: LoadingAnimationWidget.staggeredDotsWave(
-                        color: Color.fromARGB(255, 255, 255, 255),
-                        size: 150,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                    )
-                  : items.isEmpty
-                      ? Column(
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(
-                                  top:
-                                      MediaQuery.of(context).size.height * 0.3),
-                              height: 110,
-                              width: 110,
-                              child: Image.asset(
-                                'lib/assets/not_found_image_asset.png',
-                                fit: BoxFit
-                                    .contain, // Ensure the image fits within the container
-                              ),
-                            ),
-                            const Text("No course found, try creating some !"),
-                          ],
-                        )
-                      : CardRounded(
-                          items: items,
-                          email: widget.email,
+                    ),
+                    Container(
+                        padding: const EdgeInsets.only(
+                          top: 70,
+                          right: 20,
                         ),
-            ],
+                        height: 160,
+                        child: InkWell(
+                          onTap: () {
+                            openBottomSheetChoice(context);
+                          },
+                          splashColor: Colors.transparent,
+                          child: Container(
+                            color: Colors.black,
+                            child: const Icon(
+                              Icons.add_circle,
+                              color: Colors.white,
+                              size: 38.0,
+                            ),
+                          ),
+                        )),
+                  ],
+                ),
+                isLoading
+                    ? Container(
+                        margin: EdgeInsets.only(
+                            top: MediaQuery.of(context).size.height * 0.3),
+                        child: LoadingAnimationWidget.staggeredDotsWave(
+                          color: Color.fromARGB(255, 255, 255, 255),
+                          size: 150,
+                        ),
+                      )
+                    : items.isEmpty
+                        ? Column(
+                            children: [
+                              Container(
+                                margin: EdgeInsets.only(
+                                    top: MediaQuery.of(context).size.height *
+                                        0.3),
+                                height: 110,
+                                width: 110,
+                                child: Image.asset(
+                                  'lib/assets/not_found_image_asset.png',
+                                  fit: BoxFit
+                                      .contain, // Ensure the image fits within the container
+                                ),
+                              ),
+                              const Text(
+                                  "No course found, try creating some !"),
+                            ],
+                          )
+                        : CardRounded(
+                            items: items,
+                            email: widget.email,
+                          ),
+              ],
+            ),
           ),
         ),
       ),

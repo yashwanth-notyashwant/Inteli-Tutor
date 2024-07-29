@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intellitutor/Providers/profile.dart';
 import 'package:intellitutor/Screens/course_list_screen.dart';
+import 'package:intellitutor/Screens/distrubutor_screen.dart';
 import 'package:loading_btn/loading_btn.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
