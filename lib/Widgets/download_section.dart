@@ -6,7 +6,11 @@ import 'dart:io';
 import 'package:open_file/open_file.dart';
 import 'package:loading_btn/loading_btn.dart';
 
+// ignore: must_be_immutable
 class DownloadIconButton extends StatelessWidget {
+  String title;
+  String desc;
+  DownloadIconButton(this.title, this.desc);
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -45,13 +49,48 @@ class DownloadIconButton extends StatelessWidget {
 
   Future<void> _createAndDownloadPDF() async {
     final pdf = pw.Document();
-    pdf.addPage(
-      pw.Page(
-        build: (pw.Context context) => pw.Center(
-          child: pw.Text('This is the specific text in the PDF'),
+
+    // Helper function to split text into chunks
+    List<String> _splitText(String text, int chunkSize) {
+      List<String> chunks = [];
+      int start = 0;
+      while (start < text.length) {
+        int end = start + chunkSize;
+        if (end > text.length) end = text.length;
+        chunks.add(text.substring(start, end));
+        start = end;
+      }
+      return chunks;
+    }
+
+    // Define your text chunk size based on your font size and page size
+    const int chunkSize = 1000; // Adjust as needed
+    List<String> textChunks = _splitText(desc, chunkSize);
+
+    for (String chunk in textChunks) {
+      pdf.addPage(
+        pw.MultiPage(
+          build: (pw.Context context) => [
+            pw.Center(
+              child: pw.Column(
+                children: [
+                  pw.Text(
+                    title,
+                    style: pw.TextStyle(
+                        fontSize: 26, fontWeight: pw.FontWeight.bold),
+                  ),
+                  pw.SizedBox(height: 16),
+                  pw.Text(
+                    chunk,
+                    style: pw.TextStyle(fontSize: 18),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
-      ),
-    );
+      );
+    }
 
     final output = await getTemporaryDirectory();
     final file = File("${output.path}/specific_name.pdf");

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:intellitutor/Providers/courses_list.dart';
+
+import 'package:intellitutor/Widgets/download_section.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class DescWidget extends StatefulWidget {
@@ -97,64 +99,67 @@ class _DescWidgetState extends State<DescWidget> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Row(
-                children: [
-                  Hero(
-                    tag: 'circle1-$num',
-                    child: Container(
-                      width: 80,
-                      height: 80,
-                      padding: EdgeInsets.only(left: 30, top: 40),
-                      child: SizedBox(
-                        width: 36,
-                        child: Stack(
-                          children: [
-                            Positioned(
-                              left: 0,
-                              child: Container(
-                                width: 30,
-                                height: 30,
-                                decoration: BoxDecoration(
-                                  color: widget.itemColor,
-                                  shape: BoxShape.circle,
+              Container(
+                margin: const EdgeInsets.only(top: 40),
+                child: Row(
+                  children: [
+                    Hero(
+                      tag: 'circle1-${widget.numb}',
+                      child: Container(
+                        width: 80,
+                        height: 80,
+                        padding: EdgeInsets.only(left: 30, top: 40),
+                        child: SizedBox(
+                          width: 36,
+                          child: Stack(
+                            children: [
+                              Positioned(
+                                left: 0,
+                                child: Container(
+                                  width: 30,
+                                  height: 30,
+                                  decoration: BoxDecoration(
+                                    color: widget.itemColor,
+                                    shape: BoxShape.circle,
+                                  ),
                                 ),
                               ),
-                            ),
-                            Positioned(
-                              left: 16,
-                              child: Container(
-                                width: 30,
-                                height: 30,
-                                decoration: BoxDecoration(
-                                  color: widget.itemColor2,
-                                  shape: BoxShape.circle,
+                              Positioned(
+                                left: 16,
+                                child: Container(
+                                  width: 30,
+                                  height: 30,
+                                  decoration: BoxDecoration(
+                                    color: widget.itemColor2,
+                                    shape: BoxShape.circle,
+                                  ),
                                 ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width * 0.80,
-                    padding: const EdgeInsets.only(top: 45, left: 10),
-                    height: 120,
-                    child: Animate(
-                      effects: [FadeEffect(), SlideEffect()],
-                      child: const Text(
-                        "Explanation",
-                        style: TextStyle(
-                          color: Color.fromARGB(255, 231, 231, 231),
-                          fontSize: 35,
-                          fontWeight: FontWeight.bold,
+                    Container(
+                      width: MediaQuery.of(context).size.width * 0.80,
+                      padding: const EdgeInsets.only(top: 45, left: 10),
+                      height: 120,
+                      child: Animate(
+                        effects: [FadeEffect(duration: 400.ms), SlideEffect()],
+                        child: const Text(
+                          "Explanation",
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 231, 231, 231),
+                            fontSize: 35,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                          // maxLines: 1,
                         ),
-                        overflow: TextOverflow.ellipsis,
-                        // maxLines: 1,
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
               isLoading
                   ? Container(
@@ -193,18 +198,33 @@ class _DescWidgetState extends State<DescWidget> {
                             child: Container(
                               padding: EdgeInsets.only(
                                   top: 60, left: 30, right: 30, bottom: 20),
-                              child: Text(
-                                  style: const TextStyle(
-                                      color:
-                                          Color.fromARGB(255, 241, 239, 239)),
-                                  '''
-# ${widget.sectionName}
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    style: TextStyle(
+                                      fontSize: 21,
+                                      color: Color.fromARGB(255, 241, 239, 239),
+                                    ),
+                                    widget.sectionName.toString().trim(),
+                                  ).animate().fade(duration: 450.ms).slide(),
+                                  Text(
+                                          style: const TextStyle(
+                                            color: Color.fromARGB(
+                                                255, 241, 239, 239),
+                                          ),
+                                          '''
 
- ''' +
-                                      '''$desc'''),
+$desc''')
+                                      .animate()
+                                      .fade(duration: 600.ms),
+                                ],
+                              ),
                             ),
                           ),
-                        )
+                        ),
+              DownloadIconButton(widget.courseName, desc),
             ],
           ),
         ),

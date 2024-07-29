@@ -50,12 +50,12 @@ class _CardRoundedSectionsState extends State<CardRoundedSections> {
                       padding: const EdgeInsets.all(16.0),
                       child: ListTile(
                         splashColor: Colors.transparent,
-                        leading: Hero(
-                          tag: 'circle1-$index',
-                          child: Container(
-                            padding: const EdgeInsets.only(top: 10),
-                            child: SizedBox(
-                              width: 36,
+                        leading: Container(
+                          padding: const EdgeInsets.only(top: 10),
+                          child: SizedBox(
+                            width: 36,
+                            child: Hero(
+                              tag: 'circle1-$index',
                               child: Stack(
                                 children: [
                                   Positioned(
