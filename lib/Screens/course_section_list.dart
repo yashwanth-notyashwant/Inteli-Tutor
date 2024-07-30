@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intellitutor/Providers/courses_list.dart';
+import 'package:intellitutor/Screens/profile_screen.dart';
 import 'package:intellitutor/Widgets/card_desc_sectionslist.dart';
 import 'package:intellitutor/Widgets/card_desc_widget_course.dart';
 import 'package:intellitutor/Screens/desc_page.dart';
@@ -13,6 +14,7 @@ class CourseSecionsScreen extends StatefulWidget {
     required this.email,
     required this.courseName,
   });
+
   @override
   State<CourseSecionsScreen> createState() => _CourseSecionsScreenState();
 }
@@ -20,7 +22,10 @@ class CourseSecionsScreen extends StatefulWidget {
 class _CourseSecionsScreenState extends State<CourseSecionsScreen> {
   bool isLoading = true;
   List<String> items = [];
+  int _selectedIndex = 0;
+  PageController _pageController = PageController();
 
+  @override
   void initState() {
     super.initState();
     final CourseProvider courseProvider = CourseProvider();
@@ -29,13 +34,13 @@ class _CourseSecionsScreenState extends State<CourseSecionsScreen> {
         .then((courseExists) {
       if (courseExists != null) {
         print(courseExists.toList().toString());
-        items = courseExists;
         setState(() {
+          items = courseExists;
           isLoading = false;
         });
       } else {
         setState(() {
-          print("No sections found ");
+          print("No sections found");
           items = [];
           isLoading = false;
         });
@@ -43,8 +48,121 @@ class _CourseSecionsScreenState extends State<CourseSecionsScreen> {
     });
   }
 
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+    _pageController.jumpToPage(index);
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    return WillPopScope(
+      onWillPop: () async {
+        // Handle back button press to ensure correct behavior
+        if (_selectedIndex != 0) {
+          _pageController.jumpToPage(0);
+          setState(() {
+            _selectedIndex = 0;
+          });
+          return false;
+        }
+        return true;
+      },
+      child: Scaffold(
+        body: PageView(
+          controller: _pageController,
+          onPageChanged: (index) {
+            setState(() {
+              _selectedIndex = index;
+            });
+          },
+          children: [
+            buildCourseSections(context),
+            SearchScreen(),
+            NotificationsScreen(),
+            ProfileScreen(emailId: widget.email.toString()),
+          ],
+        ),
+        bottomNavigationBar: Container(
+          padding: EdgeInsets.only(top: 10),
+          decoration: const BoxDecoration(
+            border: Border(
+              top: BorderSide(
+                color: Colors.white, // color of the top border
+                width: 0.3, // width of the top border
+              ),
+            ),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(20.0),
+              topRight: Radius.circular(20.0),
+            ),
+          ),
+          child: BottomNavigationBar(
+            backgroundColor: Colors.black,
+            type: BottomNavigationBarType.fixed,
+            currentIndex: _selectedIndex,
+            onTap: _onItemTapped,
+            items: const [
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.home_outlined,
+                  size: 30,
+                ),
+                label: '',
+                activeIcon: Icon(
+                  Icons.home_filled,
+                  size: 30,
+                ),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.quiz_outlined,
+                  size: 30,
+                ),
+                label: '',
+                activeIcon: Icon(
+                  Icons.quiz,
+                  size: 30,
+                ),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.pie_chart_outline,
+                  size: 30,
+                ),
+                label: '',
+                activeIcon: Icon(
+                  size: 30,
+                  Icons.pie_chart,
+                ),
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.person_2_outlined,
+                  size: 30,
+                ),
+                label: '',
+                activeIcon: Icon(
+                  size: 30,
+                  Icons.person_2,
+                ),
+              ),
+            ],
+          ),
+        ),
+        backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+      ),
+    );
+  }
+
+  Widget buildCourseSections(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 0, 0, 0),
       body: SingleChildScrollView(
@@ -67,7 +185,6 @@ class _CourseSecionsScreenState extends State<CourseSecionsScreen> {
                         fontWeight: FontWeight.bold,
                       ),
                       overflow: TextOverflow.ellipsis,
-                      // maxLines: 1,
                     ),
                   ),
                 ],
@@ -92,14 +209,13 @@ class _CourseSecionsScreenState extends State<CourseSecionsScreen> {
                               width: 110,
                               child: Image.asset(
                                 'lib/assets/not_found_image_asset.png',
-                                fit: BoxFit
-                                    .contain, // Ensure the image fits within the container
+                                fit: BoxFit.contain,
                               ),
                             ),
                             const Text(
                                 "No course sections found, Something went wrong"),
                           ],
-                        ) // for this add
+                        )
                       : CardRoundedSections(
                           items: items,
                           email: widget.email,
@@ -108,6 +224,30 @@ class _CourseSecionsScreenState extends State<CourseSecionsScreen> {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class SearchScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text(
+        'Search Screen',
+        style: TextStyle(color: Colors.white),
+      ),
+    );
+  }
+}
+
+class NotificationsScreen extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text(
+        'analyses Screen',
+        style: TextStyle(color: Colors.white),
       ),
     );
   }

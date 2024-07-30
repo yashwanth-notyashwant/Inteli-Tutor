@@ -37,6 +37,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: const ColorScheme.dark(),
         useMaterial3: true,
+        bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+          unselectedItemColor: Colors.white,
+          selectedItemColor: Colors.white, // Color for the filled icon
+        ),
+        splashColor: Colors.transparent,
       ),
       home: AuthWrapper(),
     );

@@ -231,7 +231,7 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
                                     language:
                                         languageController.text.toString(),
                                     name: nameController.text.toString(),
-                                    milestone: "Rookie",
+                                    milestone: "Noob",
                                   ),
                                   widget.email.toString(),
                                 );

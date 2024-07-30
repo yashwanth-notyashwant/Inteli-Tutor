@@ -91,141 +91,147 @@ class _DescWidgetState extends State<DescWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 0, 0, 0),
-      body: SingleChildScrollView(
-        child: Container(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                margin: const EdgeInsets.only(top: 40),
-                child: Row(
-                  children: [
-                    Hero(
-                      tag: 'circle1-${widget.numb}',
-                      child: Container(
-                        width: 80,
-                        height: 80,
-                        padding: EdgeInsets.only(left: 30, top: 40),
-                        child: SizedBox(
-                          width: 36,
-                          child: Stack(
-                            children: [
-                              Positioned(
-                                left: 0,
-                                child: Container(
-                                  width: 30,
-                                  height: 30,
-                                  decoration: BoxDecoration(
-                                    color: widget.itemColor,
-                                    shape: BoxShape.circle,
-                                  ),
-                                ),
-                              ),
-                              Positioned(
-                                left: 16,
-                                child: Container(
-                                  width: 30,
-                                  height: 30,
-                                  decoration: BoxDecoration(
-                                    color: widget.itemColor2,
-                                    shape: BoxShape.circle,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.80,
-                      padding: const EdgeInsets.only(top: 45, left: 10),
-                      height: 120,
-                      child: Animate(
-                        effects: [FadeEffect(duration: 400.ms), SlideEffect()],
-                        child: const Text(
-                          "Explanation",
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 231, 231, 231),
-                            fontSize: 35,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          overflow: TextOverflow.ellipsis,
-                          // maxLines: 1,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              isLoading
-                  ? Container(
-                      margin: EdgeInsets.only(
-                          top: MediaQuery.of(context).size.height * 0.3),
-                      child: LoadingAnimationWidget.staggeredDotsWave(
-                        color: const Color.fromARGB(255, 255, 255, 255),
-                        size: 150,
-                      ),
-                    )
-                  : desc == ""
-                      ? Column(
-                          children: [
-                            Container(
-                              margin: EdgeInsets.only(
-                                  top:
-                                      MediaQuery.of(context).size.height * 0.3),
-                              height: 110,
-                              width: 110,
-                              child: Image.asset(
-                                'lib/assets/not_found_image_asset.png',
-                                fit: BoxFit
-                                    .contain, // Ensure the image fits within the container
-                              ),
-                            ),
-                            const Text("Something went wrong !"),
-                          ],
-                        ) // for this add
-                      : Container(
-                          margin: const EdgeInsets.only(bottom: 60),
-                          child: Card(
-                            color: Color.fromARGB(255, 27, 26, 26),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(40.0),
-                            ),
-                            child: Container(
-                              padding: EdgeInsets.only(
-                                  top: 60, left: 30, right: 30, bottom: 20),
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    style: TextStyle(
-                                      fontSize: 21,
-                                      color: Color.fromARGB(255, 241, 239, 239),
+    return MaterialApp(
+      home: Scaffold(
+        backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+        body: SingleChildScrollView(
+          child: Container(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(top: 40),
+                  child: Row(
+                    children: [
+                      Hero(
+                        tag: 'circle1-${widget.numb}',
+                        child: Container(
+                          width: 80,
+                          height: 80,
+                          padding: EdgeInsets.only(left: 30, top: 40),
+                          child: SizedBox(
+                            width: 36,
+                            child: Stack(
+                              children: [
+                                Positioned(
+                                  left: 0,
+                                  child: Container(
+                                    width: 30,
+                                    height: 30,
+                                    decoration: BoxDecoration(
+                                      color: widget.itemColor,
+                                      shape: BoxShape.circle,
                                     ),
-                                    widget.sectionName.toString().trim(),
-                                  ).animate().fade(duration: 450.ms).slide(),
-                                  Text(
-                                          style: const TextStyle(
-                                            color: Color.fromARGB(
-                                                255, 241, 239, 239),
-                                          ),
-                                          '''
-
-$desc''')
-                                      .animate()
-                                      .fade(duration: 600.ms),
-                                ],
-                              ),
+                                  ),
+                                ),
+                                Positioned(
+                                  left: 16,
+                                  child: Container(
+                                    width: 30,
+                                    height: 30,
+                                    decoration: BoxDecoration(
+                                      color: widget.itemColor2,
+                                      shape: BoxShape.circle,
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
-              DownloadIconButton(widget.courseName, desc),
-            ],
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.80,
+                        padding: const EdgeInsets.only(top: 45, left: 10),
+                        height: 120,
+                        child: Animate(
+                          effects: [
+                            FadeEffect(duration: 400.ms),
+                            SlideEffect()
+                          ],
+                          child: const Text(
+                            "Explanation",
+                            style: TextStyle(
+                              color: Color.fromARGB(255, 231, 231, 231),
+                              fontSize: 35,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                            // maxLines: 1,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                isLoading
+                    ? Container(
+                        margin: EdgeInsets.only(
+                            top: MediaQuery.of(context).size.height * 0.3),
+                        child: LoadingAnimationWidget.staggeredDotsWave(
+                          color: const Color.fromARGB(255, 255, 255, 255),
+                          size: 150,
+                        ),
+                      )
+                    : desc == ""
+                        ? Column(
+                            children: [
+                              Container(
+                                margin: EdgeInsets.only(
+                                    top: MediaQuery.of(context).size.height *
+                                        0.3),
+                                height: 110,
+                                width: 110,
+                                child: Image.asset(
+                                  'lib/assets/not_found_image_asset.png',
+                                  fit: BoxFit
+                                      .contain, // Ensure the image fits within the container
+                                ),
+                              ),
+                              const Text("Something went wrong !"),
+                            ],
+                          ) // for this add
+                        : Container(
+                            margin: const EdgeInsets.only(bottom: 60),
+                            child: Card(
+                              color: Color.fromARGB(255, 27, 26, 26),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(40.0),
+                              ),
+                              child: Container(
+                                padding: EdgeInsets.only(
+                                    top: 60, left: 30, right: 30, bottom: 20),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      style: TextStyle(
+                                        fontSize: 21,
+                                        color:
+                                            Color.fromARGB(255, 241, 239, 239),
+                                      ),
+                                      widget.sectionName.toString().trim(),
+                                    ).animate().fade(duration: 450.ms).slide(),
+                                    Text(
+                                            style: const TextStyle(
+                                              color: Color.fromARGB(
+                                                  255, 241, 239, 239),
+                                            ),
+                                            '''
+      
+      $desc''')
+                                        .animate()
+                                        .fade(duration: 600.ms),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                DownloadIconButton(widget.courseName, desc),
+              ],
+            ),
           ),
         ),
       ),

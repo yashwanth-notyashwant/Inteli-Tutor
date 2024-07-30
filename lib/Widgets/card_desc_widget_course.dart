@@ -93,6 +93,12 @@ class _CardRoundedState extends State<CardRounded> {
                         onTap: () {
                           Navigator.push(
                             context,
+                            // MaterialPageRoute(
+                            //   builder: (context) => DistScreen(
+                            //     email: widget.email!,
+                            //     courseName: widget.items[index],
+                            //   ),
+                            // ),
                             MaterialPageRoute(
                               builder: (context) => CourseSecionsScreen(
                                 email: widget.email!,

@@ -1,0 +1,245 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:intellitutor/Models/AuthUser.dart';
+import 'package:intellitutor/Providers/courses_list.dart';
+import 'package:intellitutor/Providers/profile.dart';
+
+import 'package:intellitutor/Widgets/download_section.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
+
+class ProfileScreen extends StatefulWidget {
+  final String emailId;
+  ProfileScreen({required this.emailId});
+
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  bool isLoading = true;
+  AuthUser? User;
+  @override
+  void initState() {
+    UserDataProvider instance = UserDataProvider();
+    instance.getUserData(widget.emailId).then(
+      (usersExists) {
+        if (usersExists != null) {
+          print(usersExists.milestone.toString());
+          print(usersExists.age.toString());
+          print(usersExists.language.toString());
+          User = usersExists;
+          setState(() {
+            isLoading = false;
+          });
+        } else {
+          User = usersExists;
+          setState(() {
+            isLoading = false;
+          });
+        }
+      },
+    );
+
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+        body: isLoading
+            ? Center(
+                child: Container(
+                  margin: EdgeInsets.only(
+                      top: MediaQuery.of(context).size.height * 0.3),
+                  child: LoadingAnimationWidget.staggeredDotsWave(
+                    color: const Color.fromARGB(255, 255, 255, 255),
+                    size: 150,
+                  ),
+                ),
+              )
+            : SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      height: 400,
+                      child: Stack(children: [
+                        Positioned(
+                          top: 0, // Start at the top of the column
+
+                          child: Container(
+                            color: Color.fromARGB(255, 248, 244,
+                                244), // matches the background oft he image dont change
+                            padding: const EdgeInsets.only(
+                              left: 30,
+                              right: 30,
+                              top: 40,
+                              bottom: 20,
+                            ),
+                            height:
+                                MediaQuery.of(context).size.height * 0.4, // 1
+                            width: MediaQuery.of(context).size.width,
+                            child: User?.milestone == "Expert"
+                                ? Image.asset(
+                                    'lib/assets/expert.png',
+                                    fit: BoxFit.cover,
+                                  )
+                                : User?.milestone == "Advanced"
+                                    ? Image.asset(
+                                        'lib/assets/advanced.png',
+                                        fit: BoxFit.cover,
+                                      )
+                                    : Image.asset(
+                                        'lib/assets/noob.png',
+                                        fit: BoxFit.cover,
+                                      ),
+                          ),
+                        ),
+                        Positioned(
+                          top: MediaQuery.of(context).size.height *
+                              0.36, // 2 , so do 1-2= d , a+b-d= height
+                          child: Container(
+                            decoration: const BoxDecoration(
+                              color: Color.fromARGB(255, 12, 12, 12),
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(40.0),
+                                topRight: Radius.circular(40.0),
+                              ), // Apply rounded edges
+                            ),
+                            width: MediaQuery.of(context).size.width,
+                            height: 40,
+                          ),
+                        ),
+                      ]),
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      color: Colors.black,
+                      padding: EdgeInsets.only(left: 20),
+                      child: ListTile(
+                        leading: Icon(
+                          Icons.person_2_rounded,
+                          color: Colors.white,
+                          size: 32,
+                        ),
+                        title: Text(
+                          'Name',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        subtitle: Text(
+                          User!.name.toString(),
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ),
+                    Divider(
+                      thickness: 0.3,
+                      indent: 20,
+                      endIndent: 20,
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      color: Colors.black,
+                      padding: const EdgeInsets.only(left: 20),
+                      child: ListTile(
+                        leading: const Icon(
+                          Icons.email,
+                          color: Colors.white,
+                          size: 32,
+                        ),
+                        title: Text(
+                          'Email Id',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        subtitle: Text(
+                          widget.emailId,
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ),
+                    Divider(
+                      thickness: 0.3,
+                      indent: 20,
+                      endIndent: 20,
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      color: Colors.black,
+                      padding: EdgeInsets.only(left: 20),
+                      child: ListTile(
+                        leading: Icon(
+                          Icons.numbers,
+                          color: Colors.white,
+                          size: 32,
+                        ),
+                        title: Text(
+                          "Age",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        subtitle: Text(
+                          User!.age.toString(),
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ),
+                    Divider(
+                      thickness: 0.3,
+                      indent: 20,
+                      endIndent: 20,
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      color: Colors.black,
+                      padding: EdgeInsets.only(left: 20),
+                      child: ListTile(
+                        leading: Icon(
+                          Icons.auto_graph_outlined,
+                          color: Colors.white,
+                          size: 32,
+                        ),
+                        title: Text(
+                          "Milestone",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        subtitle: Text(
+                          User!.milestone.toString(),
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ),
+                    Divider(
+                      thickness: 0.3,
+                      indent: 20,
+                      endIndent: 20,
+                    ),
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      color: Colors.black,
+                      padding: EdgeInsets.only(left: 20),
+                      child: ListTile(
+                        leading: Icon(
+                          Icons.language,
+                          color: Colors.white,
+                          size: 32,
+                        ),
+                        title: Text(
+                          "Language",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        subtitle: Text(
+                          User!.language.toString(),
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+      ),
+    );
+  }
+}
