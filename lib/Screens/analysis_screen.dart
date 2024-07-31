@@ -3,7 +3,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:intellitutor/Widgets/arrow_to_rectangle.dart';
 import 'package:intellitutor/Widgets/bar_graph_widget.dart';
 
-import 'package:loading_animation_widget/loading_animation_widget.dart';
+// import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:pie_chart/pie_chart.dart';
 
 import '../Widgets/animated_line_graph.dart';
@@ -99,7 +99,21 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
                 //           ) // for this add
                 Container(
                   margin: const EdgeInsets.only(bottom: 60),
+                  // decoration: const BoxDecoration(
+                  //   color: Color.fromARGB(255, 27, 26, 26),
+                  //   border: Border(
+                  //     top: BorderSide(
+                  //       color: Colors.white, // Color of the top border
+                  //       width: 0.3, // Width of the top border
+                  //     ),
+                  //   ),
+                  //   borderRadius: BorderRadius.only(
+                  //     topLeft: Radius.circular(40.0),
+                  //     topRight: Radius.circular(40.0),
+                  //   ),
+                  // ),
                   child: Card(
+                    // color: Color.fromARGB(255, 16, 16, 16), this is a bit darker if you wanna go with this see once
                     color: Color.fromARGB(255, 27, 26, 26),
                     // color: Colors.yellow,
                     shape: RoundedRectangleBorder(

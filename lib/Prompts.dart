@@ -7,6 +7,7 @@ class Prompts {
       await dotenv.load(fileName: ".env");
       String apiKey = dotenv.env['API_KEY']!;
 
+      // ignore: unnecessary_null_comparison
       if (apiKey == null) {
         throw Exception("API Key not found in environment variables.");
       }

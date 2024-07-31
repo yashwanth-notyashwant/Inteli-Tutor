@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intellitutor/Providers/courses_list.dart';
 import 'package:intellitutor/Screens/analysis_screen.dart';
 import 'package:intellitutor/Screens/profile_screen.dart';
+import 'package:intellitutor/Screens/quiz_screen.dart';
 import 'package:intellitutor/Widgets/card_desc_sectionslist.dart';
 import 'package:intellitutor/Widgets/card_desc_widget_course.dart';
 import 'package:intellitutor/Screens/desc_page.dart';
@@ -86,7 +87,7 @@ class _CourseSecionsScreenState extends State<CourseSecionsScreen> {
           },
           children: [
             buildCourseSections(context),
-            SearchScreen(),
+            QuizScreen(),
             AnalysisScreen(),
             ProfileScreen(emailId: widget.email.toString()),
           ],
@@ -225,18 +226,6 @@ class _CourseSecionsScreenState extends State<CourseSecionsScreen> {
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-class SearchScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        'Search Screen',
-        style: TextStyle(color: Colors.white),
       ),
     );
   }

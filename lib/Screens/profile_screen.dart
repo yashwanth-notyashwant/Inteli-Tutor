@@ -115,130 +115,78 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                       ]),
                     ),
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      color: Colors.black,
-                      padding: EdgeInsets.only(left: 20),
-                      child: ListTile(
-                        leading: Icon(
-                          Icons.person_2_rounded,
-                          color: Colors.white,
-                          size: 32,
-                        ),
-                        title: Text(
-                          'Name',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        subtitle: Text(
-                          User!.name.toString(),
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
+                    customTile(
+                      icon: Icons.person_2_rounded,
+                      title: 'Name:  ',
+                      subtitle: User!.name.toString(),
                     ),
-                    Divider(
-                      thickness: 0.3,
-                      indent: 20,
-                      endIndent: 20,
+                    DividerWidget(),
+                    customTile(
+                      icon: Icons.email,
+                      title: 'Email Id',
+                      subtitle: widget.emailId,
                     ),
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      color: Colors.black,
-                      padding: const EdgeInsets.only(left: 20),
-                      child: ListTile(
-                        leading: const Icon(
-                          Icons.email,
-                          color: Colors.white,
-                          size: 32,
-                        ),
-                        title: Text(
-                          'Email Id',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        subtitle: Text(
-                          widget.emailId,
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
+                    DividerWidget(),
+                    customTile(
+                      icon: Icons.numbers,
+                      title: "Age",
+                      subtitle: User!.age.toString(),
                     ),
-                    Divider(
-                      thickness: 0.3,
-                      indent: 20,
-                      endIndent: 20,
+                    DividerWidget(),
+                    customTile(
+                      icon: Icons.auto_graph_outlined,
+                      title: "Milestone",
+                      subtitle: User!.milestone.toString(),
                     ),
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      color: Colors.black,
-                      padding: EdgeInsets.only(left: 20),
-                      child: ListTile(
-                        leading: Icon(
-                          Icons.numbers,
-                          color: Colors.white,
-                          size: 32,
-                        ),
-                        title: Text(
-                          "Age",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        subtitle: Text(
-                          User!.age.toString(),
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    ),
-                    Divider(
-                      thickness: 0.3,
-                      indent: 20,
-                      endIndent: 20,
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      color: Colors.black,
-                      padding: EdgeInsets.only(left: 20),
-                      child: ListTile(
-                        leading: Icon(
-                          Icons.auto_graph_outlined,
-                          color: Colors.white,
-                          size: 32,
-                        ),
-                        title: Text(
-                          "Milestone",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        subtitle: Text(
-                          User!.milestone.toString(),
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    ),
-                    Divider(
-                      thickness: 0.3,
-                      indent: 20,
-                      endIndent: 20,
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      color: Colors.black,
-                      padding: EdgeInsets.only(left: 20),
-                      child: ListTile(
-                        leading: Icon(
-                          Icons.language,
-                          color: Colors.white,
-                          size: 32,
-                        ),
-                        title: Text(
-                          "Language",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                        subtitle: Text(
-                          User!.language.toString(),
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
+                    DividerWidget(),
+                    customTile(
+                      icon: Icons.language,
+                      title: "Language",
+                      subtitle: User!.language.toString(),
                     ),
                   ],
                 ),
               ),
       ),
+    );
+  }
+
+  Widget customTile(
+      {required IconData icon,
+      required String title,
+      required String subtitle}) {
+    return Container(
+      width: double.infinity,
+      height: 60,
+      color: Colors.black,
+      padding: EdgeInsets.only(left: 20),
+      child: ListTile(
+        leading: Icon(
+          icon,
+          color: Color.fromARGB(255, 235, 235, 235),
+          size: 25,
+        ),
+        title: Text(
+          title,
+          style: TextStyle(
+            color: Color.fromARGB(255, 235, 235, 235),
+          ),
+        ),
+        subtitle: Text(
+          subtitle,
+          style: TextStyle(
+            color: Color.fromARGB(255, 235, 235, 235),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget DividerWidget() {
+    return const Divider(
+      thickness: 0.3,
+      indent: 35,
+      endIndent: 35,
     );
   }
 }
