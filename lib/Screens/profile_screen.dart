@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_animate/flutter_animate.dart';
+
 import 'package:intellitutor/Models/AuthUser.dart';
-import 'package:intellitutor/Providers/courses_list.dart';
+
 import 'package:intellitutor/Providers/profile.dart';
 
-import 'package:intellitutor/Widgets/download_section.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -19,29 +18,29 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   bool isLoading = true;
   AuthUser? User;
+  bool _isMounted = false;
+
   @override
   void initState() {
+    _isMounted = true;
     UserDataProvider instance = UserDataProvider();
     instance.getUserData(widget.emailId).then(
       (usersExists) {
-        if (usersExists != null) {
-          print(usersExists.milestone.toString());
-          print(usersExists.age.toString());
-          print(usersExists.language.toString());
-          User = usersExists;
+        if (_isMounted) {
           setState(() {
-            isLoading = false;
-          });
-        } else {
-          User = usersExists;
-          setState(() {
+            User = usersExists;
             isLoading = false;
           });
         }
       },
     );
-
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _isMounted = false;
+    super.dispose();
   }
 
   @override

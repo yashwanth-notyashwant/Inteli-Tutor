@@ -36,6 +36,11 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: const ColorScheme.dark(),
+        textTheme: const TextTheme(
+          bodyLarge: TextStyle(color: Colors.white),
+          bodyMedium: TextStyle(color: Colors.white),
+          bodySmall: TextStyle(color: Colors.white),
+        ),
         useMaterial3: true,
         bottomNavigationBarTheme: const BottomNavigationBarThemeData(
           unselectedItemColor: Colors.white,
