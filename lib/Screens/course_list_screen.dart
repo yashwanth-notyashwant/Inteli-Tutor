@@ -1,10 +1,15 @@
+import 'dart:io';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intellitutor/Providers/courses_list.dart';
+import 'package:intellitutor/Screens/login_page.dart';
 
 import 'package:intellitutor/Widgets/card_desc_widget_course.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:loading_btn/loading_btn.dart';
 import '../Widgets/bottom_sheet_message.dart';
+import 'package:image_picker/image_picker.dart';
 
 class CourseListScreen extends StatefulWidget {
   final int numb;
@@ -24,6 +29,24 @@ class CourseListScreen extends StatefulWidget {
 }
 
 class _CourseListScreenState extends State<CourseListScreen> {
+  final ImagePicker _picker = ImagePicker();
+  XFile? _imageFile;
+
+  Future<void> _pickImage() async {
+    try {
+      final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+      if (image != null) {
+        setState(() {
+          _imageFile = image;
+        });
+        print("Successful image pick ");
+      }
+    } catch (e) {
+      print('Error picking image: $e');
+    }
+  }
+
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   List<String> items = [];
   bool isLoading = true;
   void initState() {
@@ -237,45 +260,134 @@ class _CourseListScreenState extends State<CourseListScreen> {
     }
 
     return Scaffold(
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      // floatingActionButton: Padding( just for now not req as planning on adding a bottom nav , will see in future
-      //   padding: const EdgeInsets.only(
-      //       left: 20,
-      //       right: 20,
-      //       top:
-      //           20), // as startdocked will give starting a bit of padding for some reason
-      //   child: LoadingBtn(
-      //     height: 60,
-      //     borderRadius: 20,
-      //     animate: true,
-      //     color: const Color.fromARGB(255, 236, 240, 243),
-      //     width: MediaQuery.of(context).size.width,
-      //     loader: Container(
-      //       padding: const EdgeInsets.all(10),
-      //       width: 40,
-      //       height: 40,
-      //       child: const CircularProgressIndicator(
-      //         valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-      //       ),
-      //     ),
-      //     onTap: ((startLoading, stopLoading, btnState) async {
-      //       if (btnState == ButtonState.idle) {
-      //         startLoading();
-
-      //         openBottomSheetChoice(context);
-
-      //         stopLoading();
-      //       }
-      //     }),
-      //     child: const Text(
-      //       'Create Course',
-      //       textAlign: TextAlign.center,
-      //       style: TextStyle(
-      //           fontSize: 20, fontWeight: FontWeight.w300, color: Colors.black),
-      //     ), //add some styles
-      //   ),
-      // ),
+      key: _scaffoldKey,
       backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+      drawer: Drawer(
+        backgroundColor: Colors.black,
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            Container(
+              height: 140,
+              margin: EdgeInsets.only(left: 10, top: 50),
+              color: Colors.black,
+              child: Container(
+                padding: const EdgeInsets.only(top: 10),
+                child: SizedBox(
+                  width: 100,
+                  child: Stack(
+                    children: [
+                      Positioned(
+                        left: 0,
+                        child: Container(
+                          width: 50,
+                          height: 50,
+                          decoration: const BoxDecoration(
+                            color: Color.fromARGB(255, 120, 104, 216),
+                            shape: BoxShape.circle,
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        left: 20,
+                        child: Container(
+                          width: 50,
+                          height: 50,
+                          decoration: const BoxDecoration(
+                            color: Color(0xFF00FFFF),
+                            shape: BoxShape.circle,
+                          ),
+                        ),
+                      ),
+                      Positioned(
+                        left: 40,
+                        child: Container(
+                          width: 50,
+                          height: 50,
+                          decoration: const BoxDecoration(
+                            color: Color.fromARGB(255, 255, 197, 36),
+                            shape: BoxShape.circle,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            const Divider(
+              thickness: 0.3,
+              color: Colors.grey,
+              endIndent: 20,
+              indent: 20,
+            ),
+            ListTile(
+              leading: Icon(Icons.image),
+              title: Text('Summarize a pic'),
+              onTap: () async {
+                await _pickImage();
+                // Handle the tap
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.description),
+              title: Text('Summarize a PDF'),
+              onTap: () {
+                // Handle the tap
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.chat),
+              title: Text('Chat Bot'),
+              onTap: () {
+                // Handle the tap
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.spellcheck),
+              title: Text('Correct IT!'),
+              onTap: () {
+                // Handle the tap
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.lightbulb),
+              title: Text('Make It Easy'),
+              onTap: () {
+                // Handle the tap
+              },
+            ),
+            const Divider(
+              thickness: 0.3,
+              color: Colors.grey,
+              endIndent: 20,
+              indent: 20,
+            ),
+            ListTile(
+              leading: Icon(Icons.help),
+              title: Text('Help & Feedback'),
+              onTap: () {
+                // Handle the tap
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.logout),
+              title: Text('Logout'),
+              onTap: () async {
+                print("pressed");
+                await FirebaseAuth.instance.signOut();
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => LoginPage(),
+                  ),
+                );
+                // Handle the tap
+              },
+            ),
+          ],
+        ),
+      ),
       body: SingleChildScrollView(
         child: Container(
           child: Column(
@@ -286,10 +398,30 @@ class _CourseListScreenState extends State<CourseListScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Container(
+                      padding: const EdgeInsets.only(
+                        top: 65,
+                        left: 20,
+                      ),
+                      height: 160,
+                      child: InkWell(
+                        onTap: () {
+                          _scaffoldKey.currentState?.openDrawer();
+                        },
+                        splashColor: Colors.transparent,
+                        child: Container(
+                          color: Colors.black,
+                          child: const Icon(
+                            Icons.menu,
+                            color: Colors.white,
+                            size: 38.0,
+                          ),
+                        ),
+                      )),
+                  Container(
                     padding: const EdgeInsets.only(top: 80, left: 10),
                     height: 160,
                     child: const Text(
-                      "  Courses",
+                      " Courses",
                       style: TextStyle(
                         color: Color.fromARGB(255, 231, 231, 231),
                         fontSize: 35,
@@ -297,6 +429,9 @@ class _CourseListScreenState extends State<CourseListScreen> {
                       ),
                       overflow: TextOverflow.ellipsis,
                     ),
+                  ),
+                  Expanded(
+                    child: Container(),
                   ),
                   Container(
                       padding: const EdgeInsets.only(
