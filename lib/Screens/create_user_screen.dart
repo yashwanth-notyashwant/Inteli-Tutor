@@ -24,7 +24,7 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
     final UserDataProvider _userDataProvider = UserDataProvider();
     _userDataProvider.checkUserExists(widget.email).then((userExists) {
       if (userExists) {
-        //
+        // SummarizePicScreen
         Navigator.push(
           context,
           MaterialPageRoute(

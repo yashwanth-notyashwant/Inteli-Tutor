@@ -21,7 +21,8 @@ const String SECTION_NAMES_GENERATOR3 =
     '''The end goal of this is to gain knowledge in realm like ''';
 //
 //
-const String SECTION_NAMES_GENERATOR4 = '';
-const String SECTION_NAMES_GENERATOR5 = '';
+const String SUMMARIZE_PROMPT =
+    '"Summarize the content of the text or image if recieved, If Not suitable for summarizing the image or the text, simply return a message saying its not suitable for Summarizing -->"';
+const String SIMPLIFY_PROMPT =
+    'Simplify the given input text or the contents image using simple words, so that even a kid would get it, or break down things if possible, points by points or para or any suitable forms. -->';
 const String SECTION_NAMES_GENERATOR6 = '';
-const String SECTION_NAMES_GENERATOR7 = '';

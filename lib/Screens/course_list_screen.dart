@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intellitutor/Providers/courses_list.dart';
 import 'package:intellitutor/Screens/login_page.dart';
+import 'package:intellitutor/Screens/summarize_pic_screen.dart';
 
 import 'package:intellitutor/Widgets/card_desc_widget_course.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -29,23 +30,6 @@ class CourseListScreen extends StatefulWidget {
 }
 
 class _CourseListScreenState extends State<CourseListScreen> {
-  final ImagePicker _picker = ImagePicker();
-  XFile? _imageFile;
-
-  Future<void> _pickImage() async {
-    try {
-      final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
-      if (image != null) {
-        setState(() {
-          _imageFile = image;
-        });
-        print("Successful image pick ");
-      }
-    } catch (e) {
-      print('Error picking image: $e');
-    }
-  }
-
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   List<String> items = [];
   bool isLoading = true;
@@ -322,23 +306,21 @@ class _CourseListScreenState extends State<CourseListScreen> {
               indent: 20,
             ),
             ListTile(
-              leading: Icon(Icons.image),
-              title: Text('Summarize a pic'),
+              leading: Icon(Icons.short_text),
+              title: Text('Summarize'),
               onTap: () async {
-                await _pickImage();
-                // Handle the tap
-              },
-            ),
-            ListTile(
-              leading: Icon(Icons.description),
-              title: Text('Summarize a PDF'),
-              onTap: () {
-                // Handle the tap
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        const SummarizeOrSimplifyScreen(whereFrom: 0),
+                  ),
+                );
               },
             ),
             ListTile(
               leading: Icon(Icons.chat),
-              title: Text('Chat Bot'),
+              title: Text('Chat'),
               onTap: () {
                 // Handle the tap
               },
@@ -354,7 +336,13 @@ class _CourseListScreenState extends State<CourseListScreen> {
               leading: Icon(Icons.lightbulb),
               title: Text('Make It Easy'),
               onTap: () {
-                // Handle the tap
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        const SummarizeOrSimplifyScreen(whereFrom: 1),
+                  ),
+                );
               },
             ),
             const Divider(
