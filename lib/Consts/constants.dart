@@ -22,7 +22,8 @@ const String SECTION_NAMES_GENERATOR3 =
 //
 //
 const String SUMMARIZE_PROMPT =
-    '"Summarize the content of the text or image if recieved, If Not suitable for summarizing the image or the text, simply return a message saying its not suitable for Summarizing -->"';
+    '"Summarize the content of the text or image if recieved, If Not suitable for summarizing the image or the text, simply return a message saying its not suitable for Summarizing ';
 const String SIMPLIFY_PROMPT =
-    'Simplify the given input text or the contents image using simple words, so that even a kid would get it, or break down things if possible, points by points or para or any suitable forms. -->';
-const String SECTION_NAMES_GENERATOR6 = '';
+    'Simplify the given input text or the contents image using simple words, so that even a kid would get it, or break down things if possible, points by points or para or any suitable forms.';
+const String CORRECTOR =
+    'Transform the given text or image found in text with the proper grammer, tenses and spellings, and if simply an image or text which can not be corrected, simply return an error message saying this input is not suitable and if the text is perefect without any mistakes then say No changes are needed as its perfect in Gramatical Norms';

@@ -4,13 +4,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intellitutor/Providers/courses_list.dart';
 import 'package:intellitutor/Screens/login_page.dart';
-import 'package:intellitutor/Screens/summarize_pic_screen.dart';
+import 'package:intellitutor/Screens/three_in_one_screen.dart';
 
 import 'package:intellitutor/Widgets/card_desc_widget_course.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:loading_btn/loading_btn.dart';
 import '../Widgets/bottom_sheet_message.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class CourseListScreen extends StatefulWidget {
   final int numb;
@@ -329,7 +330,13 @@ class _CourseListScreenState extends State<CourseListScreen> {
               leading: Icon(Icons.spellcheck),
               title: Text('Correct IT!'),
               onTap: () {
-                // Handle the tap
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        const SummarizeOrSimplifyScreen(whereFrom: 2),
+                  ),
+                );
               },
             ),
             ListTile(
@@ -354,7 +361,24 @@ class _CourseListScreenState extends State<CourseListScreen> {
             ListTile(
               leading: Icon(Icons.help),
               title: Text('Help & Feedback'),
-              onTap: () {
+              onTap: () async {
+                final Uri emailUri = Uri(
+                  scheme: 'mailto',
+                  path: 'yashwanth051202@gmail.com',
+                  query: 'subject=${'Intelli-Tutor Android Feedback'}&body=${'''
+Please attact a screen shot if necessary
+For reporting bug please mention steps to reproduce the bug along with device details 
+User email: ${widget.email}'''}',
+                );
+                if (await canLaunchUrl(emailUri)) {
+                  await launchUrl(emailUri);
+                } else {
+                  //replace with the custom toast
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Could not open the email app.')),
+                  );
+                }
+
                 // Handle the tap
               },
             ),
