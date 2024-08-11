@@ -9,31 +9,56 @@ import 'package:pie_chart/pie_chart.dart';
 import '../Widgets/animated_line_graph.dart';
 
 class AnalysisScreen extends StatefulWidget {
-  AnalysisScreen();
+  final List<int> score;
+  AnalysisScreen({required this.score});
 
   @override
   State<AnalysisScreen> createState() => _AnalysisScreenState();
 }
 
 class _AnalysisScreenState extends State<AnalysisScreen> {
+  Map<String, double> dataMapp = {
+    "Completed": 50,
+    "Incomplete": 50,
+  };
+  List<int> replacedNumbers = [];
+  int average = 0;
+  int n = 0;
   @override
   void initState() {
+    int incomplete = 0;
+    int complete = 0;
+    for (int i in widget.score) {
+      if (i == -1) {
+        incomplete++;
+      } else {
+        n++;
+        average += i;
+        complete++;
+      }
+    }
+    dataMapp["Completed"] = (complete / (complete + incomplete)) * 100;
+    dataMapp["Incomplete"] = 100.0 - dataMapp["Completed"]!;
+    print("before");
+    print(average);
+    average = average ~/ n;
+    average = average > 0 ? average : 0;
+    print(average);
+
+    replacedNumbers = widget.score.map((number) {
+      if (number == -1) {
+        return 0;
+      } else if (number == 0) {
+        return 1;
+      } else {
+        return number + 1;
+      }
+    }).toList();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    Map<String, double> dataMap = {
-      "Section 1": 12.5,
-      "Section 2": 12.5,
-      "Section 3": 12.5,
-      "Section 4": 12.5,
-      "Section 5": 12.5,
-      "Section 6": 12.5,
-      "Section 7": 12.5,
-      "Section 8": 12.5,
-    };
-
     return MaterialApp(
       home: Scaffold(
         backgroundColor: const Color.fromARGB(255, 0, 0, 0),
@@ -71,50 +96,11 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
                     ],
                   ),
                 ),
-                // isLoading
-                //     ? Container(
-                //         margin: EdgeInsets.only(
-                //             top: MediaQuery.of(context).size.height * 0.3),
-                //         child: LoadingAnimationWidget.staggeredDotsWave(
-                //           color: const Color.fromARGB(255, 255, 255, 255),
-                //           size: 150,
-                //         ),
-                //       )
-                //  Column(
-                //             children: [
-                //               Container(
-                //                 margin: EdgeInsets.only(
-                //                     top: MediaQuery.of(context).size.height *
-                //                         0.3),
-                //                 height: 110,
-                //                 width: 110,
-                //                 child: Image.asset(
-                //                   'lib/assets/not_found_image_asset.png',
-                //                   fit: BoxFit
-                //                       .contain, // Ensure the image fits within the container
-                //                 ),
-                //               ),
-                //               const Text("Something went wrong !"),
-                //             ],
-                //           ) // for this add
                 Container(
                   margin: const EdgeInsets.only(bottom: 60),
-                  // decoration: const BoxDecoration(
-                  //   color: Color.fromARGB(255, 27, 26, 26),
-                  //   border: Border(
-                  //     top: BorderSide(
-                  //       color: Colors.white, // Color of the top border
-                  //       width: 0.3, // Width of the top border
-                  //     ),
-                  //   ),
-                  //   borderRadius: BorderRadius.only(
-                  //     topLeft: Radius.circular(40.0),
-                  //     topRight: Radius.circular(40.0),
-                  //   ),
-                  // ),
                   child: Card(
                     // color: Color.fromARGB(255, 16, 16, 16), this is a bit darker if you wanna go with this see once
-                    color: Color.fromARGB(255, 27, 26, 26),
+                    color: Color.fromRGBO(18, 19, 24, 1),
                     // color: Colors.yellow,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(40.0),
@@ -136,19 +122,19 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
                           ).animate().fade(duration: 450.ms).slide(),
                           const SizedBox(height: 25),
                           PieChart(
-                            dataMap: dataMap,
+                            dataMap: dataMapp,
                             animationDuration: Duration(milliseconds: 800),
                             chartLegendSpacing: 50,
                             chartRadius: MediaQuery.of(context).size.width / 2,
                             colorList: const [
-                              Colors.red,
-                              Colors.green,
-                              Colors.blue,
-                              Colors.yellow,
+                              // Colors.red,
+                              // Colors.green,
+                              // Colors.blue,
+                              // Colors.yellow,
                               Colors.orange,
                               Colors.pink,
-                              Colors.purple,
-                              Colors.amber,
+                              // Colors.purple,
+                              // Colors.amber,
                             ],
                             chartValuesOptions: const ChartValuesOptions(
                               showChartValuesInPercentage: true,
@@ -184,7 +170,7 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
                           Container(
                             width: MediaQuery.of(context).size.width,
                             child: SectionedRectangleWithPointer(
-                              selectedIndex: 0,
+                              selectedIndex: average,
                             ),
                           ),
                           SBOX(),
@@ -197,27 +183,26 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
                             ),
                             "Score distribution:",
                           ).animate().fade(duration: 450.ms).slide(),
+                          SBOX(),
+                          SBOX(),
                           Container(
                               height: 200,
                               width: MediaQuery.of(context).size.width,
-                              child: BarGraph()),
+                              child: BarGraph(
+                                list: replacedNumbers,
+                              )),
                           SBOX(),
                           DividerWidget(),
                           SBOX(),
-                          const Text(
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: Color.fromARGB(255, 241, 239, 239),
-                            ),
-                            "Complexity Analysis:",
-                          ).animate().fade(duration: 450.ms).slide(),
                           SizedBox(
                             height: 40,
                           ),
                           Container(
                               height: 200,
                               width: MediaQuery.of(context).size.width,
-                              child: LineGraph()),
+                              child: LineGraph(
+                                list: replacedNumbers,
+                              )),
                         ],
                       ),
                     ),

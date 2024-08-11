@@ -216,9 +216,10 @@ Green houses are made up of ______
     // var hi = MediaQuery.of(context).size.height;
     var wi = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Color.fromRGBO(18, 19, 24, 1),
       appBar: !isSubmitted
           ? AppBar(
+              backgroundColor: Colors.black,
               automaticallyImplyLeading: false,
               title: Text(
                 'Section -1',
@@ -235,7 +236,7 @@ Green houses are made up of ______
           ? SingleChildScrollView(
               child: Container(
                 width: wi,
-                color: Colors.black,
+                color: Color.fromRGBO(18, 19, 24, 1),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

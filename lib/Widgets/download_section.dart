@@ -64,7 +64,7 @@ class DownloadIconButton extends StatelessWidget {
     }
 
     // Define your text chunk size based on your font size and page size
-    const int chunkSize = 1000; // Adjust as needed
+    const int chunkSize = 1500; // Adjust as needed
     List<String> textChunks = _splitText(desc, chunkSize);
 
     for (String chunk in textChunks) {

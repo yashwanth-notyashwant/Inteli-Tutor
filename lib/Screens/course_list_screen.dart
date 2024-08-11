@@ -1,16 +1,16 @@
-import 'dart:io';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intellitutor/Providers/courses_list.dart';
+
 import 'package:intellitutor/Screens/login_page.dart';
 import 'package:intellitutor/Screens/three_in_one_screen.dart';
+import 'package:intellitutor/Screens/web.dart';
 
 import 'package:intellitutor/Widgets/card_desc_widget_course.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:loading_btn/loading_btn.dart';
 import '../Widgets/bottom_sheet_message.dart';
-import 'package:image_picker/image_picker.dart';
+
 import 'package:url_launcher/url_launcher.dart';
 
 class CourseListScreen extends StatefulWidget {
@@ -322,8 +322,22 @@ class _CourseListScreenState extends State<CourseListScreen> {
             ListTile(
               leading: Icon(Icons.chat),
               title: Text('Chat'),
-              onTap: () {
-                // Handle the tap
+              onTap: () async {
+                // final url = Uri.parse('https://gemini.google.com/app');
+
+                // // if (await canLaunchUrl(url)) {
+                // launchUrl(url);
+                // // } else {
+                // //   // Show a custom toast or SnackBar if the URL cannot be opened
+                // //   ScaffoldMessenger.of(context).showSnackBar(
+                // //     SnackBar(content: Text('Could not open the URL.')),
+                // //   );
+                // // }
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => WebViewContainer(
+                            websiteURL: "https://gemini.google.com/app")));
               },
             ),
             ListTile(

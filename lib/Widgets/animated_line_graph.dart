@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 class LineGraph extends StatelessWidget {
-  final List<int> values = [2, 5, 3, 4, 7, 6];
+  final List<int> list;
+
+  LineGraph({required this.list});
   final List<String> labels = [
     'A',
     'B',
@@ -10,6 +12,14 @@ class LineGraph extends StatelessWidget {
     'D',
     'E',
     'F',
+    'G',
+    'H',
+    'I',
+    'J',
+    'K',
+    'L',
+    'M',
+    'N',
   ];
 
   @override
@@ -18,7 +28,7 @@ class LineGraph extends StatelessWidget {
       LineChartData(
         lineBarsData: [
           LineChartBarData(
-            spots: values.asMap().entries.map((entry) {
+            spots: list.asMap().entries.map((entry) {
               final index = entry.key;
               final value = entry.value;
               return FlSpot(index.toDouble(), value.toDouble());

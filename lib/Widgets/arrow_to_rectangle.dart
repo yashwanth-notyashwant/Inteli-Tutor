@@ -12,7 +12,7 @@ class SectionedRectangleWithPointer extends StatelessWidget {
       builder: (context, constraints) {
         double screenWidth = constraints.maxWidth;
         double rectangleWidth = screenWidth * 0.9; // Adjust width as needed
-        double sectionWidth = rectangleWidth / 10;
+        double sectionWidth = rectangleWidth / 11;
 
         return Center(
           child: ClipRect(
@@ -30,25 +30,16 @@ class SectionedRectangleWithPointer extends StatelessWidget {
                     ),
                     child: Row(
                       children: List.generate(
-                        10,
+                        11,
                         (index) => Container(
                           width: sectionWidth
                               .floorToDouble(), // Ensure integer pixel width
                           color: index == selectedIndex
                               ? Colors.orange
                               : Colors.pink,
-                          child: Center(child: Text('${index + 1}')),
+                          child: Center(child: Text('${index}')),
                         ),
                       ),
-                    ),
-                  ),
-                  Positioned(
-                    left: (sectionWidth * selectedIndex).floorToDouble() - 5,
-                    top: 35,
-                    child: Icon(
-                      size: 40,
-                      Icons.arrow_drop_up,
-                      color: Colors.white,
                     ),
                   ),
                 ],

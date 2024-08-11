@@ -5,6 +5,8 @@ import 'package:intellitutor/Providers/courses_list.dart';
 import 'package:intellitutor/Widgets/download_section.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
+import '../Widgets/audio.dart';
+
 class DescWidget extends StatefulWidget {
   final String email;
   final String sectionName;
@@ -195,7 +197,7 @@ class _DescWidgetState extends State<DescWidget> {
                         : Container(
                             margin: const EdgeInsets.only(bottom: 60),
                             child: Card(
-                              color: Color.fromARGB(255, 27, 26, 26),
+                              color: Color.fromRGBO(18, 19, 24, 1),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(40.0),
                               ),
@@ -214,14 +216,22 @@ class _DescWidgetState extends State<DescWidget> {
                                       ),
                                       widget.sectionName.toString().trim(),
                                     ).animate().fade(duration: 450.ms).slide(),
+                                    Divider(
+                                      endIndent: 30,
+                                      thickness: 0.3,
+                                    ),
+                                    SizedBox(height: 10),
+                                    TTSWidget(
+                                      text: desc,
+                                    ),
                                     Text(
                                             style: const TextStyle(
                                               color: Color.fromARGB(
                                                   255, 241, 239, 239),
                                             ),
                                             '''
-      
-      $desc''')
+
+$desc''')
                                         .animate()
                                         .fade(duration: 600.ms),
                                   ],

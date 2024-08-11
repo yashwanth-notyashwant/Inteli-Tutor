@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 
 class BarGraph extends StatefulWidget {
+  final List<int> list;
+
+  BarGraph({required this.list});
   @override
   _BarGraphState createState() => _BarGraphState();
 }
 
 class _BarGraphState extends State<BarGraph>
     with SingleTickerProviderStateMixin {
-  final List<int> values = [2, 5, 3, 4, 7, 8, 6, 8];
+  // final List<int> values = [2, 5, 3, 4, 7, 8, 6, 8];
   final List<Color> colorList = const [
     Colors.red,
     Colors.green,
@@ -18,6 +21,9 @@ class _BarGraphState extends State<BarGraph>
     Colors.pink,
     Colors.purple,
     Colors.amber,
+    Colors.blue,
+    Colors.yellow,
+    Colors.orange,
   ];
 
   final List<String> labels = [
@@ -95,7 +101,7 @@ class _BarGraphState extends State<BarGraph>
             ),
             gridData: FlGridData(show: false),
             borderData: FlBorderData(show: false),
-            barGroups: values.asMap().entries.map((entry) {
+            barGroups: widget.list.asMap().entries.map((entry) {
               final index = entry.key;
               final value = entry.value;
 

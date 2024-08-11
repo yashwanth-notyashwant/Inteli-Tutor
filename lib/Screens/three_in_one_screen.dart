@@ -124,7 +124,7 @@ class _SummarizeOrSimplifyScreenState extends State<SummarizeOrSimplifyScreen> {
               //     160, // here Im talking about
               width: MediaQuery.of(context).size.width,
               child: Card(
-                color: Color.fromARGB(255, 27, 26, 26),
+                color: Color.fromRGBO(18, 19, 24, 1),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(40.0),
                 ),

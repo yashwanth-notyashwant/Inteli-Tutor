@@ -36,6 +36,8 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: const ColorScheme.dark(),
+        scaffoldBackgroundColor: Color.fromRGBO(18, 19, 24, 1),
+        cardColor: Color.fromRGBO(18, 19, 24, 1),
         textTheme: const TextTheme(
           bodyLarge: TextStyle(color: Colors.white),
           bodyMedium: TextStyle(color: Colors.white),

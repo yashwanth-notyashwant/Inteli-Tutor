@@ -4,8 +4,7 @@ import 'package:intellitutor/Screens/analysis_screen.dart';
 import 'package:intellitutor/Screens/profile_screen.dart';
 import 'package:intellitutor/Screens/quiz_screen.dart';
 import 'package:intellitutor/Widgets/card_desc_sectionslist.dart';
-import 'package:intellitutor/Widgets/card_desc_widget_course.dart';
-import 'package:intellitutor/Screens/desc_page.dart';
+
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class CourseSecionsScreen extends StatefulWidget {
@@ -88,12 +87,14 @@ class _CourseSecionsScreenState extends State<CourseSecionsScreen> {
           children: [
             buildCourseSections(context),
             QuizScreen(),
-            AnalysisScreen(),
+            AnalysisScreen(
+              score: [9, 6, 0, -1, -1, 0, 9, 0],
+            ),
             ProfileScreen(emailId: widget.email.toString()),
           ],
         ),
         bottomNavigationBar: Container(
-          padding: EdgeInsets.only(top: 10),
+          padding: const EdgeInsets.only(top: 10),
           decoration: const BoxDecoration(
             border: Border(
               top: BorderSide(
