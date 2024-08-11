@@ -323,16 +323,6 @@ class _CourseListScreenState extends State<CourseListScreen> {
               leading: Icon(Icons.chat),
               title: Text('Chat'),
               onTap: () async {
-                // final url = Uri.parse('https://gemini.google.com/app');
-
-                // // if (await canLaunchUrl(url)) {
-                // launchUrl(url);
-                // // } else {
-                // //   // Show a custom toast or SnackBar if the URL cannot be opened
-                // //   ScaffoldMessenger.of(context).showSnackBar(
-                // //     SnackBar(content: Text('Could not open the URL.')),
-                // //   );
-                // // }
                 Navigator.push(
                     context,
                     MaterialPageRoute(

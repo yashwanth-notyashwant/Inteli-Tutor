@@ -51,6 +51,10 @@ class CourseProvider {
       }
 
       courseData['reference'] = fields;
+      List<int> listOfNegatives = List.generate(fields.length, (index) => -1);
+      courseData['sectionScores'] = listOfNegatives;
+      courseData['query2'] =
+          "The complexity should be $complexity level, The end goal is $endGoal And the paragraph on which quiz questions to be generated is --> ";
       courseData['query'] =
           "Generate a paragraph (having points in bullet format along with some explanation if necessary )of about 500-1000 words about the section name, the word limit isn't fixed but should be based on content. This comes under the topic of $courseName, the complexity should be $complexity, and the end goal of this section is to $endGoal. The response should be in a paragraph format.";
 
@@ -87,6 +91,33 @@ class CourseProvider {
     }
   }
 
+  //score
+  Future<List<int>> getSectionScores(
+      String userEmail, String courseName) async {
+    try {
+      final docRef = FirebaseFirestore.instance
+          .collection('courses')
+          .doc(userEmail)
+          .collection('courseNames')
+          .doc(courseName);
+
+      final DocumentSnapshot docSnapshot = await docRef.get();
+
+      if (docSnapshot.exists) {
+        final data = docSnapshot.data() as Map<String, dynamic>?;
+
+        if (data != null && data.containsKey('sectionScores')) {
+          return List<int>.from(data['sectionScores']);
+        }
+      }
+
+      return [];
+    } catch (e) {
+      print('Error fetching section scores: $e');
+      return [];
+    }
+  }
+
   Future<List<String>?> fetchAllCourses(String userEmail) async {
     try {
       final collectionRef = FirebaseFirestore.instance
@@ -116,6 +147,9 @@ class CourseProvider {
           .doc(userEmail)
           .collection('courseNames')
           .doc(courseName);
+      print("===================Called ====================");
+      print(courseName);
+      print(userEmail);
 
       DocumentSnapshot docSnapshot = await docRef.get();
 
@@ -124,6 +158,7 @@ class CourseProvider {
             docSnapshot.data() as Map<String, dynamic>?;
         if (data != null && data.containsKey('reference')) {
           List<String> reference = List<String>.from(data['reference']);
+          print(reference.toString());
           return reference;
         } else {
           print("Field 'reference' does not exist.");

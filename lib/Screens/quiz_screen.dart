@@ -103,12 +103,27 @@ Green houses are made up of ______
   }
 
   late FToast fToast;
+  bool isLoading = true;
+
+  void awaiter() async {
+    await Future.delayed(Duration(seconds: 3));
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  void caller() {
+    awaiter();
+  }
 
   @override
   void initState() {
     super.initState();
     fToast = FToast();
     fToast.init(context);
+
+    caller();
+
     _questions.shuffle(); // Shuffle the list of questions at the beginning
   }
 
@@ -233,206 +248,227 @@ Green houses are made up of ______
               title: Text(''),
             ),
       body: !isSubmitted
-          ? SingleChildScrollView(
-              child: Container(
-                width: wi,
-                color: Color.fromRGBO(18, 19, 24, 1),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+          ? isLoading == true
+              ? Column(
                   children: [
                     Container(
-                      margin: EdgeInsets.only(left: 20, top: 20),
-                      child: Text(
-                        'Question no:${_currentIndex + 1}',
-                        style: TextStyle(
-                          color: Colors.grey,
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
-                        ),
+                      margin: EdgeInsets.only(
+                          top: MediaQuery.of(context).size.height * 0.3),
+                      height: 110,
+                      width: 110,
+                      child: Image.asset(
+                        'lib/assets/not_found_image_asset.png',
+                        fit: BoxFit
+                            .contain, // Ensure the image fits within the container
                       ),
                     ),
-                    _questions[_currentIndex]['stat'] == 'T'
-                        ? Container(
-                            // height: 60,
-                            margin: EdgeInsets.only(top: 30),
-                            decoration: BoxDecoration(
-                              color: const Color.fromARGB(255, 182, 222, 255),
-                              // borderRadius: BorderRadius.circular(20),
-                            ),
-                            width: MediaQuery.of(context).size.width,
-                            padding: EdgeInsets.only(left: 10, right: 10),
-
-                            child: const Text(
-                              'Answer Correct Please Submit all',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w300,
-                                  color: Colors.black),
-                            ), //add some styles
-                          )
-                        : Container(
-                            margin: EdgeInsets.only(
-                                left: 20, right: 20, bottom: 10),
-                            child: Text(
-                              _questions[_currentIndex]['question'] ?? '',
-                              style: TextStyle(
-                                  fontSize: 20, fontWeight: FontWeight.w300),
-                            ),
-                          ),
-                    SizedBox(height: 10),
-                    if (_questions[_currentIndex]['stat'] == 'F')
-                      Center(
-                        child: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: TextField(
-                            controller: CpntrollerList[_currentIndex],
-                            decoration: InputDecoration(
-                              labelText: 'Enter your answer',
-                            ),
-                          ),
-                        ),
-                      ),
-                    if (_questions[_currentIndex]['stat'] == 'F')
-                      Padding(
-                        padding: EdgeInsets.only(
-                            bottom: 20.0,
-                            left: MediaQuery.of(context).size.width * 0.04),
-                        child: LoadingBtn(
-                          height: 60,
-                          borderRadius: 20,
-                          animate: true,
-                          color: Colors.white,
-                          // color: const Color.fromARGB(255, 182, 222, 255),
-                          width: MediaQuery.of(context).size.width * 0.92,
-                          loader: Container(
-                            padding: const EdgeInsets.all(10),
-                            width: 40,
-                            height: 40,
-                            child: const CircularProgressIndicator(
-                              valueColor:
-                                  AlwaysStoppedAnimation<Color>(Colors.black),
-                            ),
-                          ),
-                          onTap: ((startLoading, stopLoading, btnState) async {
-                            startLoading();
-                            FocusScope.of(context).unfocus();
-
-                            Future.delayed(Duration(seconds: 1), () {
-                              if (CpntrollerList[_currentIndex]
-                                      .text
-                                      .toLowerCase()
-                                      .replaceAll(' ', '') ==
-                                  _questions[_currentIndex]['answer']
-                                      ?.toLowerCase()
-                                      .replaceAll(' ', '')) {
-                                var toastWidget = toast(true);
-                                fToast.showToast(
-                                  child: toastWidget,
-                                  gravity: ToastGravity.BOTTOM,
-                                  toastDuration: Duration(seconds: 1),
-                                );
-                                stopLoading();
-                                setState(() {
-                                  _questions[_currentIndex]['stat'] = 'T';
-                                });
-                                _showNextQuestion();
-                              } else {
-                                var toastWidget = toast(false);
-                                fToast.showToast(
-                                  child: toastWidget,
-                                  gravity: ToastGravity.BOTTOM,
-                                  toastDuration: Duration(seconds: 1),
-                                );
-                                print('Wrong answer!');
-                                stopLoading();
-                                return;
-                              }
-                            });
-
-                            return;
-                          }),
-                          child: const Text(
-                            'Check',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w300,
-                                color: Colors.black),
-                          ), //add some styles
-                        ),
-                      ),
-                    if (_currentIndex == _questions.length - 1)
-                      Padding(
-                        padding: EdgeInsets.only(
-                            bottom: 20.0,
-                            left: MediaQuery.of(context).size.width * 0.04),
-                        child: LoadingBtn(
-                          height: 60,
-                          borderRadius: 20,
-                          animate: true,
-                          color: const Color.fromARGB(255, 182, 222, 255),
-                          width: MediaQuery.of(context).size.width * 0.92,
-                          loader: Container(
-                            padding: const EdgeInsets.all(10),
-                            width: 40,
-                            height: 40,
-                            child: const CircularProgressIndicator(
-                              valueColor:
-                                  AlwaysStoppedAnimation<Color>(Colors.white),
-                            ),
-                          ),
-                          onTap: ((startLoading, stopLoading, btnState) async {
-                            if (_questions[_currentIndex]['stat'] == 'F') {
-                              var toastWidget = toast(false);
-                              fToast.showToast(
-                                child: toastWidget,
-                                gravity: ToastGravity.BOTTOM,
-                                toastDuration: Duration(seconds: 1),
-                              );
-
-                              return;
-                            }
-                            if (btnState == ButtonState.idle) {
-                              startLoading();
-
-                              // var ifSubmitted =
-                              //     await pointAdder(widget.id, 2);
-
-                              // if (ifSubmitted == true) {
-                              //   setState(() {
-                              //     isSubmitted = true;
-                              //   });
-                              //   Future.delayed(Duration(seconds: 3), () {
-                              //     Navigator.pushReplacement(
-                              //       context,
-                              //       MaterialPageRoute(
-                              //           builder: (context) =>
-                              //               Round2(widget.id)),
-                              //     );
-                              //   });
-                              // }
-                              // if (isSubmitted == false) {
-                              //   stopLoading();
-                              // }
-
-                              stopLoading();
-                            }
-                          }),
-                          child: const Text(
-                            'Submit All',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w300,
-                                color: Colors.black),
-                          ), //add some styles
-                        ),
-                      ),
+                    const Text("No course found, try creating some !"),
                   ],
-                ),
-              ),
-            )
+                )
+              : SingleChildScrollView(
+                  child: Container(
+                    width: wi,
+                    color: Color.fromRGBO(18, 19, 24, 1),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(left: 20, top: 20),
+                          child: Text(
+                            'Question no:${_currentIndex + 1}',
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                        _questions[_currentIndex]['stat'] == 'T'
+                            ? Container(
+                                // height: 60,
+                                margin: EdgeInsets.only(top: 30),
+                                decoration: BoxDecoration(
+                                  color:
+                                      const Color.fromARGB(255, 182, 222, 255),
+                                  // borderRadius: BorderRadius.circular(20),
+                                ),
+                                width: MediaQuery.of(context).size.width,
+                                padding: EdgeInsets.only(left: 10, right: 10),
+
+                                child: const Text(
+                                  'Answer Correct Please Submit all',
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w300,
+                                      color: Colors.black),
+                                ), //add some styles
+                              )
+                            : Container(
+                                margin: EdgeInsets.only(
+                                    left: 20, right: 20, bottom: 10),
+                                child: Text(
+                                  _questions[_currentIndex]['question'] ?? '',
+                                  style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w300),
+                                ),
+                              ),
+                        SizedBox(height: 10),
+                        if (_questions[_currentIndex]['stat'] == 'F')
+                          Center(
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: TextField(
+                                controller: CpntrollerList[_currentIndex],
+                                decoration: InputDecoration(
+                                  labelText: 'Enter your answer',
+                                ),
+                              ),
+                            ),
+                          ),
+                        if (_questions[_currentIndex]['stat'] == 'F')
+                          Padding(
+                            padding: EdgeInsets.only(
+                                bottom: 20.0,
+                                left: MediaQuery.of(context).size.width * 0.04),
+                            child: LoadingBtn(
+                              height: 60,
+                              borderRadius: 20,
+                              animate: true,
+                              color: Colors.white,
+                              // color: const Color.fromARGB(255, 182, 222, 255),
+                              width: MediaQuery.of(context).size.width * 0.92,
+                              loader: Container(
+                                padding: const EdgeInsets.all(10),
+                                width: 40,
+                                height: 40,
+                                child: const CircularProgressIndicator(
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                      Colors.black),
+                                ),
+                              ),
+                              onTap:
+                                  ((startLoading, stopLoading, btnState) async {
+                                startLoading();
+                                FocusScope.of(context).unfocus();
+
+                                Future.delayed(Duration(seconds: 1), () {
+                                  if (CpntrollerList[_currentIndex]
+                                          .text
+                                          .toLowerCase()
+                                          .replaceAll(' ', '') ==
+                                      _questions[_currentIndex]['answer']
+                                          ?.toLowerCase()
+                                          .replaceAll(' ', '')) {
+                                    var toastWidget = toast(true);
+                                    fToast.showToast(
+                                      child: toastWidget,
+                                      gravity: ToastGravity.BOTTOM,
+                                      toastDuration: Duration(seconds: 1),
+                                    );
+                                    stopLoading();
+                                    setState(() {
+                                      _questions[_currentIndex]['stat'] = 'T';
+                                    });
+                                    _showNextQuestion();
+                                  } else {
+                                    var toastWidget = toast(false);
+                                    fToast.showToast(
+                                      child: toastWidget,
+                                      gravity: ToastGravity.BOTTOM,
+                                      toastDuration: Duration(seconds: 1),
+                                    );
+                                    print('Wrong answer!');
+                                    stopLoading();
+                                    return;
+                                  }
+                                });
+
+                                return;
+                              }),
+                              child: const Text(
+                                'Check',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w300,
+                                    color: Colors.black),
+                              ), //add some styles
+                            ),
+                          ),
+                        if (_currentIndex == _questions.length - 1)
+                          Padding(
+                            padding: EdgeInsets.only(
+                                bottom: 20.0,
+                                left: MediaQuery.of(context).size.width * 0.04),
+                            child: LoadingBtn(
+                              height: 60,
+                              borderRadius: 20,
+                              animate: true,
+                              color: const Color.fromARGB(255, 182, 222, 255),
+                              width: MediaQuery.of(context).size.width * 0.92,
+                              loader: Container(
+                                padding: const EdgeInsets.all(10),
+                                width: 40,
+                                height: 40,
+                                child: const CircularProgressIndicator(
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                      Colors.white),
+                                ),
+                              ),
+                              onTap:
+                                  ((startLoading, stopLoading, btnState) async {
+                                if (_questions[_currentIndex]['stat'] == 'F') {
+                                  var toastWidget = toast(false);
+                                  fToast.showToast(
+                                    child: toastWidget,
+                                    gravity: ToastGravity.BOTTOM,
+                                    toastDuration: Duration(seconds: 1),
+                                  );
+
+                                  return;
+                                }
+                                if (btnState == ButtonState.idle) {
+                                  startLoading();
+
+                                  // var ifSubmitted =
+                                  //     await pointAdder(widget.id, 2);
+
+                                  // if (ifSubmitted == true) {
+                                  //   setState(() {
+                                  //     isSubmitted = true;
+                                  //   });
+                                  //   Future.delayed(Duration(seconds: 3), () {
+                                  //     Navigator.pushReplacement(
+                                  //       context,
+                                  //       MaterialPageRoute(
+                                  //           builder: (context) =>
+                                  //               Round2(widget.id)),
+                                  //     );
+                                  //   });
+                                  // }
+                                  // if (isSubmitted == false) {
+                                  //   stopLoading();
+                                  // }
+
+                                  stopLoading();
+                                }
+                              }),
+                              child: const Text(
+                                'Submit All',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.w300,
+                                    color: Colors.black),
+                              ), //add some styles
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+                )
           : Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,

@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:intellitutor/Providers/courses_list.dart';
 import 'package:intellitutor/Screens/analysis_screen.dart';
 import 'package:intellitutor/Screens/profile_screen.dart';
-import 'package:intellitutor/Screens/quiz_screen.dart';
+
 import 'package:intellitutor/Widgets/card_desc_sectionslist.dart';
+import 'package:intellitutor/Widgets/rounded_card_quiz.dart';
 
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
@@ -24,29 +25,46 @@ class _CourseSecionsScreenState extends State<CourseSecionsScreen> {
   bool isLoading = true;
   List<String> items = [];
   int _selectedIndex = 0;
+  List<int> list = [];
   PageController _pageController = PageController();
 
-  @override
-  void initState() {
-    super.initState();
+  void caller() async {
     final CourseProvider courseProvider = CourseProvider();
-    courseProvider
-        .sectionNameFetcher(widget.email, widget.courseName)
-        .then((courseExists) {
-      if (courseExists != null) {
-        print(courseExists.toList().toString());
-        setState(() {
-          items = courseExists;
-          isLoading = false;
-        });
-      } else {
+    var courseExists = await courseProvider.sectionNameFetcher(
+        widget.email, widget.courseName);
+
+    if (courseExists != null) {
+      print(courseExists.toList().toString());
+      items = courseExists;
+      list = (await courseProvider.getSectionScores(
+          widget.email, widget.courseName));
+      if (list == []) {
         setState(() {
           print("No sections found");
           items = [];
           isLoading = false;
         });
       }
-    });
+      setState(() {
+        isLoading = false;
+      });
+    } else {
+      setState(() {
+        print("No sections found");
+        items = [];
+        isLoading = false;
+      });
+    }
+  }
+
+  void another() {
+    caller();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    another();
   }
 
   void _onItemTapped(int index) {
@@ -86,7 +104,12 @@ class _CourseSecionsScreenState extends State<CourseSecionsScreen> {
           },
           children: [
             buildCourseSections(context),
-            QuizScreen(),
+            // QuizScreen(),
+            // QuizSectionNameScreen(
+            //   courseName: widget.email,
+            //   email: widget.courseName,
+            // ),
+            buildCourseSectionsQuiz(context),
             AnalysisScreen(
               score: [9, 6, 0, -1, -1, 0, 9, 0],
             ),
@@ -220,6 +243,73 @@ class _CourseSecionsScreenState extends State<CourseSecionsScreen> {
                           ],
                         )
                       : CardRoundedSections(
+                          items: items,
+                          email: widget.email,
+                          courseName: widget.courseName,
+                        ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildCourseSectionsQuiz(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+      body: SingleChildScrollView(
+        child: Container(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Row(
+                children: [
+                  Container(
+                    width: MediaQuery.of(context).size.width * 0.80,
+                    padding: const EdgeInsets.only(top: 80, left: 10),
+                    height: 160,
+                    child: const Text(
+                      "  Quizzes",
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 231, 231, 231),
+                        fontSize: 35,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+              ),
+              isLoading
+                  ? Container(
+                      margin: EdgeInsets.only(
+                          top: MediaQuery.of(context).size.height * 0.3),
+                      child: LoadingAnimationWidget.staggeredDotsWave(
+                        color: Color.fromARGB(255, 255, 255, 255),
+                        size: 150,
+                      ),
+                    )
+                  : items.isEmpty
+                      ? Column(
+                          children: [
+                            Container(
+                              margin: EdgeInsets.only(
+                                  top:
+                                      MediaQuery.of(context).size.height * 0.3),
+                              height: 110,
+                              width: 110,
+                              child: Image.asset(
+                                'lib/assets/not_found_image_asset.png',
+                                fit: BoxFit.contain,
+                              ),
+                            ),
+                            const Text(
+                                "No course sections found, Something went wrong"),
+                          ],
+                        )
+                      : RoundedCardQuiz(
+                          score: list,
                           items: items,
                           email: widget.email,
                           courseName: widget.courseName,

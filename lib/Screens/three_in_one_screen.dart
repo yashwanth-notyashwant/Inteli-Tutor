@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:image_picker/image_picker.dart';
@@ -319,9 +318,7 @@ class _SummarizeOrSimplifyScreenState extends State<SummarizeOrSimplifyScreen> {
           setState(() {
             isLoading = true;
           });
-          if (_imageFile != null ||
-              (_textController.text.toString() != "" ||
-                  _textController.text.toString() != null)) {
+          if (_imageFile != null || (_textController.text.toString() != "")) {
             await _analyzeImageWithPrompt(
                 _imageFile, _textController.text.toString());
             setState(() {
