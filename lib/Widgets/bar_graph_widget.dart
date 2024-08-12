@@ -35,6 +35,8 @@ class _BarGraphState extends State<BarGraph>
     'S6',
     'S7',
     'S8',
+    'S9',
+    'S10'
   ];
 
   late AnimationController _animationController;

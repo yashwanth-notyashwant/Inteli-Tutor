@@ -56,7 +56,7 @@ Generate a JSON response only , in other cases where JSON response for the query
     },
     and follow this type strictly
 
-    The JSON response should have 10 questions in the above format 
+    The JSON response should have 5 questions in the above format 
 ''';
       final response =
           await model.generateContent([Content.text(prompt + query)]);

@@ -31,10 +31,13 @@ class DescWidget extends StatefulWidget {
 class _DescWidgetState extends State<DescWidget> {
   bool isLoading = true;
   String desc = "";
+  bool _isMounted = false;
 
   @override
   void initState() {
     super.initState();
+    _isMounted = true;
+
     final CourseProvider courseProvider = CourseProvider();
     courseProvider
         .specificSectionFieldFetcher(
@@ -68,27 +71,38 @@ class _DescWidgetState extends State<DescWidget> {
               if (resp.toString() == "") {
                 print("checker 6");
                 desc = "Something went wrong";
-
-                setState(() {
-                  isLoading = false;
-                });
+                if (_isMounted) {
+                  setState(() {
+                    isLoading = false;
+                  });
+                }
               } else {
                 print("checker 7");
                 desc = resp.toString();
-                setState(() {
-                  isLoading = false;
-                });
+                if (_isMounted) {
+                  setState(() {
+                    isLoading = false;
+                  });
+                }
               }
             });
           }
         });
       } else {
         desc = descExists;
-        setState(() {
-          isLoading = false;
-        });
+        if (_isMounted) {
+          setState(() {
+            isLoading = false;
+          });
+        }
       }
     });
+  }
+
+  @override
+  void dispose() {
+    _isMounted = false;
+    super.dispose();
   }
 
   @override

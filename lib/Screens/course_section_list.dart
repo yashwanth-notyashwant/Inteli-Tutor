@@ -23,6 +23,7 @@ class CourseSecionsScreen extends StatefulWidget {
 
 class _CourseSecionsScreenState extends State<CourseSecionsScreen> {
   bool isLoading = true;
+  bool _isMounted = false;
   List<String> items = [];
   int _selectedIndex = 0;
   List<int> list = [];
@@ -39,21 +40,27 @@ class _CourseSecionsScreenState extends State<CourseSecionsScreen> {
       list = (await courseProvider.getSectionScores(
           widget.email, widget.courseName));
       if (list == []) {
+        if (_isMounted) {
+          setState(() {
+            print("No sections found");
+            items = [];
+            isLoading = false;
+          });
+        }
+      }
+      if (_isMounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
+    } else {
+      if (_isMounted) {
         setState(() {
           print("No sections found");
           items = [];
           isLoading = false;
         });
       }
-      setState(() {
-        isLoading = false;
-      });
-    } else {
-      setState(() {
-        print("No sections found");
-        items = [];
-        isLoading = false;
-      });
     }
   }
 
@@ -63,6 +70,7 @@ class _CourseSecionsScreenState extends State<CourseSecionsScreen> {
 
   @override
   void initState() {
+    _isMounted = true;
     super.initState();
     another();
   }
@@ -77,6 +85,7 @@ class _CourseSecionsScreenState extends State<CourseSecionsScreen> {
   @override
   void dispose() {
     _pageController.dispose();
+    _isMounted = false;
     super.dispose();
   }
 
@@ -111,9 +120,9 @@ class _CourseSecionsScreenState extends State<CourseSecionsScreen> {
             // ),
             buildCourseSectionsQuiz(context),
             AnalysisScreen(
-              score: [-1, -1, -1, -1, -1, -1, -1, -1],
+              score: list,
             ),
-            ProfileScreen(emailId: widget.email.toString()),
+            ProfileScreen(emailId: widget.email.toString(), score: list),
           ],
         ),
         bottomNavigationBar: Container(
@@ -304,8 +313,7 @@ class _CourseSecionsScreenState extends State<CourseSecionsScreen> {
                                 fit: BoxFit.contain,
                               ),
                             ),
-                            const Text(
-                                "No course sections found, Something went wrong"),
+                            const Text("Something went wrong"),
                           ],
                         )
                       : RoundedCardQuiz(

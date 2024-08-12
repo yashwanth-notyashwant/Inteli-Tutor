@@ -95,6 +95,8 @@ class _RoundedCardQuizState extends State<RoundedCardQuiz> {
                                 email: widget.email,
                                 secName: widget.items[index],
                                 courseName: widget.courseName,
+                                scoreList: widget.score,
+                                index: index,
                               ),
                             ),
                           );

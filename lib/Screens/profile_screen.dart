@@ -8,8 +8,9 @@ import 'package:intellitutor/Providers/profile.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class ProfileScreen extends StatefulWidget {
+  List<int> score;
   final String emailId;
-  ProfileScreen({required this.emailId});
+  ProfileScreen({required this.emailId, required this.score});
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -19,6 +20,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   bool isLoading = true;
   AuthUser? User;
   bool _isMounted = false;
+  int pivot = 0;
 
   @override
   void initState() {
@@ -26,6 +28,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
     UserDataProvider instance = UserDataProvider();
     instance.getUserData(widget.emailId).then(
       (usersExists) {
+        // check and traverse the list
+        for (int i in widget.score) {
+          if (i != -1) {
+            pivot++;
+          }
+        }
+
         if (_isMounted) {
           setState(() {
             User = usersExists;
@@ -71,32 +80,31 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           top: 0, // Start at the top of the column
 
                           child: Container(
-                            color: Color.fromARGB(255, 248, 244,
-                                244), // matches the background oft he image dont change
-                            padding: const EdgeInsets.only(
-                              left: 30,
-                              right: 30,
-                              top: 40,
-                              bottom: 20,
-                            ),
-                            height:
-                                MediaQuery.of(context).size.height * 0.4, // 1
-                            width: MediaQuery.of(context).size.width,
-                            child: User?.milestone == "Expert"
-                                ? Image.asset(
-                                    'lib/assets/expert.png',
-                                    fit: BoxFit.cover,
-                                  )
-                                : User?.milestone == "Advanced"
-                                    ? Image.asset(
-                                        'lib/assets/advanced.png',
-                                        fit: BoxFit.cover,
-                                      )
-                                    : Image.asset(
-                                        'lib/assets/noob.png',
-                                        fit: BoxFit.cover,
-                                      ),
-                          ),
+                              color: Color.fromARGB(255, 248, 244,
+                                  244), // matches the background oft he image dont change
+                              padding: const EdgeInsets.only(
+                                left: 30,
+                                right: 30,
+                                top: 40,
+                                bottom: 20,
+                              ),
+                              height:
+                                  MediaQuery.of(context).size.height * 0.4, // 1
+                              width: MediaQuery.of(context).size.width,
+                              child: pivot <= 3
+                                  ? Image.asset(
+                                      'lib/assets/noob.png',
+                                      fit: BoxFit.cover,
+                                    )
+                                  : pivot <= 7
+                                      ? Image.asset(
+                                          'lib/assets/advanced.png',
+                                          fit: BoxFit.cover,
+                                        )
+                                      : Image.asset(
+                                          'lib/assets/expert.png',
+                                          fit: BoxFit.cover,
+                                        )),
                         ),
                         Positioned(
                           top: MediaQuery.of(context).size.height *
@@ -136,7 +144,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     customTile(
                       icon: Icons.auto_graph_outlined,
                       title: "Milestone",
-                      subtitle: User!.milestone.toString(),
+                      subtitle: pivot <= 3
+                          ? "Rookie"
+                          : pivot <= 7
+                              ? "Intermediate"
+                              : "Expert",
                     ),
                     DividerWidget(),
                     customTile(

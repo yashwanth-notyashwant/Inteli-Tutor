@@ -118,6 +118,23 @@ class CourseProvider {
     }
   }
 
+  Future<void> updateSectionScores(
+      String userEmail, String courseName, List<int> newScores) async {
+    try {
+      final docRef = FirebaseFirestore.instance
+          .collection('courses')
+          .doc(userEmail)
+          .collection('courseNames')
+          .doc(courseName);
+
+      await docRef.update({
+        'sectionScores': newScores,
+      });
+    } catch (e) {
+      print('Error updating section scores: $e');
+    }
+  }
+
   Future<String> getSectionQuery2(
       String userEmail, String courseName, String secName) async {
     try {
@@ -139,11 +156,15 @@ class CourseProvider {
           String q2 = data['query2'] + data['$secName'];
           return q2;
         }
+
+        if (data!['$secName'] == "" || data['query2'] == "") {
+          return "";
+        }
       }
 
       return "";
     } catch (e) {
-      print('Error fetching section scores: $e');
+      print('Error fetching    $e');
       return "";
     }
   }

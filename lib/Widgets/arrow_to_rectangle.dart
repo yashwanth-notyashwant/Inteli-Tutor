@@ -12,7 +12,7 @@ class SectionedRectangleWithPointer extends StatelessWidget {
       builder: (context, constraints) {
         double screenWidth = constraints.maxWidth;
         double rectangleWidth = screenWidth * 0.9; // Adjust width as needed
-        double sectionWidth = rectangleWidth / 11;
+        double sectionWidth = rectangleWidth / 6;
 
         return Center(
           child: ClipRect(
@@ -30,7 +30,7 @@ class SectionedRectangleWithPointer extends StatelessWidget {
                     ),
                     child: Row(
                       children: List.generate(
-                        11,
+                        6,
                         (index) => Container(
                           width: sectionWidth
                               .floorToDouble(), // Ensure integer pixel width

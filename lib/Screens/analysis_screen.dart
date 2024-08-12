@@ -18,6 +18,7 @@ class AnalysisScreen extends StatefulWidget {
 
 class _AnalysisScreenState extends State<AnalysisScreen> {
   bool isUntouched = false;
+  bool _isMounted = false;
   Map<String, double> dataMapp = {
     "Completed": 50,
     "Incomplete": 50,
@@ -27,6 +28,7 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
   int n = 0;
   @override
   void initState() {
+    _isMounted = true;
     int incomplete = 0;
     int complete = 0;
     for (int i in widget.score) {
@@ -39,9 +41,11 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
       }
     }
     if (incomplete == widget.score.length) {
-      setState(() {
-        isUntouched = true;
-      });
+      if (_isMounted) {
+        setState(() {
+          isUntouched = true;
+        });
+      }
 
       return;
     }
@@ -63,6 +67,12 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
       }
     }).toList();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _isMounted = false;
+    super.dispose();
   }
 
   @override
@@ -212,7 +222,7 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
                                     height: 200,
                                     width: MediaQuery.of(context).size.width,
                                     child: LineGraph(
-                                      list: replacedNumbers,
+                                      list: widget.score,
                                     )),
                               ],
                             ),
