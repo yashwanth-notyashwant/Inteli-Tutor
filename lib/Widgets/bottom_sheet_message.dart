@@ -165,12 +165,10 @@ class OpenBottomSheet {
                             print('Complexity: $complexity');
                             print('End Goals: $endGoals');
 
-                            // call the function to crete course
-                            // if success call the load course list
-                            // if faild show bottom message sheet
+                          
                             stopLoading();
                             Navigator.pop(
-                                context); // Close bottom sheet after processing
+                                context);  
                           }
                         }
                       },

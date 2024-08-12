@@ -30,7 +30,7 @@ class _TTSWidgetState extends State<TTSWidget> {
     if (_isPlaying) {
       await _flutterTts.stop();
     } else {
-      await _flutterTts.setSpeechRate(0.5); // Set speech rate
+      await _flutterTts.setSpeechRate(0.5);  
       await _flutterTts.setPitch(0.9);
       await _flutterTts.speak(widget.text);
     }

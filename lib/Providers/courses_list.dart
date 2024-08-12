@@ -154,12 +154,13 @@ class CourseProvider {
             data.containsKey('$secName')) {
           // return (data['query2']);
           String q2 = data['query2'] + data['$secName'];
+          if (data['$secName'] == "" || data['query2'] == "") {
+            return "";
+          }
           return q2;
         }
-
-        if (data!['$secName'] == "" || data['query2'] == "") {
-          return "";
-        }
+        print("this isthe desc");
+        print(data!['$secName']);
       }
 
       return "";

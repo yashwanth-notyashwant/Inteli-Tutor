@@ -34,7 +34,7 @@ class LineGraph extends StatelessWidget {
               return FlSpot(index.toDouble(), value.toDouble());
             }).toList(),
             isCurved: true,
-            dotData: FlDotData(show: true),
+            dotData: const FlDotData(show: true),
             belowBarData: BarAreaData(show: false),
             aboveBarData: BarAreaData(show: false),
           ),

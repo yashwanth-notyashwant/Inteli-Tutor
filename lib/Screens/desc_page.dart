@@ -253,7 +253,9 @@ $desc''')
                               ),
                             ),
                           ),
-                DownloadIconButton(widget.courseName, desc),
+                isLoading == false
+                    ? DownloadIconButton(widget.courseName, desc)
+                    : Container(),
               ],
             ),
           ),

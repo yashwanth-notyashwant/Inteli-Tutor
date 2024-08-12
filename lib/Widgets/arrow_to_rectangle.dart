@@ -11,7 +11,7 @@ class SectionedRectangleWithPointer extends StatelessWidget {
     return LayoutBuilder(
       builder: (context, constraints) {
         double screenWidth = constraints.maxWidth;
-        double rectangleWidth = screenWidth * 0.9; // Adjust width as needed
+        double rectangleWidth = screenWidth * 0.9; 
         double sectionWidth = rectangleWidth / 6;
 
         return Center(
@@ -23,9 +23,9 @@ class SectionedRectangleWithPointer extends StatelessWidget {
                 children: [
                   Container(
                     width: rectangleWidth,
-                    height: 50, // Adjust height as needed
+                    height: 50,  
                     decoration: BoxDecoration(
-                      // color: Colors.yellow,
+                      
                       border: Border.all(color: Colors.black),
                     ),
                     child: Row(
@@ -33,7 +33,7 @@ class SectionedRectangleWithPointer extends StatelessWidget {
                         6,
                         (index) => Container(
                           width: sectionWidth
-                              .floorToDouble(), // Ensure integer pixel width
+                              .floorToDouble(),  
                           color: index == selectedIndex
                               ? Colors.orange
                               : Colors.pink,

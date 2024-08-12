@@ -12,7 +12,7 @@ class CardRounded extends StatefulWidget {
 }
 
 class _CardRoundedState extends State<CardRounded> {
-  // Define the list of items
+  
 
   @override
   Widget build(BuildContext context) {
@@ -26,8 +26,7 @@ class _CardRoundedState extends State<CardRounded> {
           height: widget.items.length * 80.0 + 66.0,
           child: Stack(
             children: List.generate(widget.items.length, (index) {
-              // Get the color for the current index
-              Color itemColor = colors[index % colors.length];
+                          Color itemColor = colors[index % colors.length];
               Color itemColor2 = colors[(index + 1) % colors.length];
 
               return Positioned(
@@ -87,18 +86,13 @@ class _CardRoundedState extends State<CardRounded> {
                           widget.items[index],
                           style: const TextStyle(color: Colors.white),
                         ),
-                        // subtitle: Icon(Icons.star), here i wanna add some section numbers
+                       
                         trailing: const Icon(Icons.chevron_right),
 
                         onTap: () {
                           Navigator.push(
                             context,
-                            // MaterialPageRoute(
-                            //   builder: (context) => DistScreen(
-                            //     email: widget.email!,
-                            //     courseName: widget.items[index],
-                            //   ),
-                            // ),
+                         
                             MaterialPageRoute(
                               builder: (context) => CourseSecionsScreen(
                                 email: widget.email!,

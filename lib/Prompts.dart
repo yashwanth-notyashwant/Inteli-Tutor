@@ -56,7 +56,7 @@ Generate a JSON response only , in other cases where JSON response for the query
     },
     and follow this type strictly
 
-    The JSON response should have 5 questions in the above format 
+    The JSON response should have 5 questions in the above format such that its a one word answer and if answer is a digit , then answer should be one number rather multiple ones, like 55 not 55,66.
 ''';
       final response =
           await model.generateContent([Content.text(prompt + query)]);

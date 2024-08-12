@@ -105,6 +105,9 @@ class _QuizScreenState extends State<QuizScreen> {
       return;
     }
     Prompts pr = Prompts();
+    print("q2");
+    print(q2);
+
     String? theJSON = await pr.promptJSon(q2);
 
     print(theJSON);
@@ -131,7 +134,7 @@ class _QuizScreenState extends State<QuizScreen> {
 
     caller();
 
-    _questions.shuffle(); // Shuffle the list of questions at the beginning
+    _questions.shuffle();
   }
 
   void _showNextQuestion() {
@@ -179,7 +182,6 @@ class _QuizScreenState extends State<QuizScreen> {
       _textController10,
     ];
 
-    // var hi = MediaQuery.of(context).size.height;
     var wi = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Color.fromRGBO(18, 19, 24, 1),
@@ -218,10 +220,9 @@ class _QuizScreenState extends State<QuizScreen> {
                 )
               : SWR
                   ? Container(
-                      padding: EdgeInsets.only(
-                          top: MediaQuery.of(context).size.height * 0.3),
                       child: Center(
-                        child: Text("Something went wrong"),
+                        child: Text('''Please read this section before
+attending the quiz'''),
                       ),
                     )
                   : SingleChildScrollView(
@@ -262,7 +263,7 @@ class _QuizScreenState extends State<QuizScreen> {
                                           fontSize: 20,
                                           fontWeight: FontWeight.w300,
                                           color: Colors.black),
-                                    ), //add some styles
+                                    ),
                                   )
                                 : Container(
                                     margin: EdgeInsets.only(
@@ -460,19 +461,21 @@ class _QuizScreenState extends State<QuizScreen> {
             ),
       floatingActionButton: !isSubmitted
           ? isLoading == false
-              ? FloatingActionButton.extended(
-                  icon: const Icon(Icons.remove_red_eye),
-                  label: const Text('See Answer'),
-                  backgroundColor: Color.fromARGB(255, 182, 222, 255),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                  elevation: 3.0,
-                  onPressed: () {
-                    openBottomSheetChoice(
-                        context, _questions[_currentIndex]['answer']!);
-                  },
-                )
+              ? !SWR
+                  ? FloatingActionButton.extended(
+                      icon: const Icon(Icons.remove_red_eye),
+                      label: const Text('See Answer'),
+                      backgroundColor: Color.fromARGB(255, 182, 222, 255),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30.0),
+                      ),
+                      elevation: 3.0,
+                      onPressed: () {
+                        openBottomSheetChoice(
+                            context, _questions[_currentIndex]['answer']!);
+                      },
+                    )
+                  : null
               : null
           : null,
     );
