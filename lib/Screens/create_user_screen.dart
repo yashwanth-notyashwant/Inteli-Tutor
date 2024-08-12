@@ -238,6 +238,21 @@ class _CreateUserScreenState extends State<CreateUserScreen> {
                                 print("=======================");
                                 print(abc);
                                 print("=======================");
+                                if (abc == true) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => CourseListScreen(
+                                        email: widget.email,
+                                        numb: 1,
+                                        itemColor:
+                                            Color.fromARGB(255, 255, 197, 36),
+                                        itemColor2: Color(0xFF00FFFF),
+                                      ),
+                                    ),
+                                  );
+                                }
+
                                 stopLoading();
                                 return;
                               }

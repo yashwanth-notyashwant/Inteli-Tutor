@@ -201,6 +201,8 @@ class _LoginFormState extends State<LoginForm> {
                         }
                       } catch (e) {
                         print(e);
+                        stopLoading();
+                        return;
                       }
 
                       stopLoading();
