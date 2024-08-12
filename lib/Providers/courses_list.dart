@@ -118,6 +118,36 @@ class CourseProvider {
     }
   }
 
+  Future<String> getSectionQuery2(
+      String userEmail, String courseName, String secName) async {
+    try {
+      final docRef = FirebaseFirestore.instance
+          .collection('courses')
+          .doc(userEmail)
+          .collection('courseNames')
+          .doc(courseName);
+
+      final DocumentSnapshot docSnapshot = await docRef.get();
+
+      if (docSnapshot.exists) {
+        final data = docSnapshot.data() as Map<String, dynamic>?;
+
+        if (data != null &&
+            data.containsKey('query2') &&
+            data.containsKey('$secName')) {
+          // return (data['query2']);
+          String q2 = data['query2'] + data['$secName'];
+          return q2;
+        }
+      }
+
+      return "";
+    } catch (e) {
+      print('Error fetching section scores: $e');
+      return "";
+    }
+  }
+
   Future<List<String>?> fetchAllCourses(String userEmail) async {
     try {
       final collectionRef = FirebaseFirestore.instance

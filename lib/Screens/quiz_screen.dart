@@ -1,13 +1,22 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intellitutor/Prompts.dart';
+import 'package:intellitutor/Providers/courses_list.dart';
 
 import 'package:loading_btn/loading_btn.dart';
 
 // ignore: must_be_immutable
 class QuizScreen extends StatefulWidget {
   // late String id;
-  const QuizScreen();
+  final String courseName;
+  final String email;
+  final String secName;
+
+  const QuizScreen(
+      {required this.email, required this.secName, required this.courseName});
   @override
   State<QuizScreen> createState() => _QuizScreenState();
 }
@@ -26,7 +35,7 @@ class _QuizScreenState extends State<QuizScreen> {
   int _currentIndex = 0;
   bool isSubmitted = false;
 
-  final List<Map<String, String>> _questions = [
+  List<Map<String, String>> _questions = [
     {
       "question":
           "An old man shoots his wife . Then he held her under the water for 5 minutes. Finally, he hangs her . But 10 minutes later they both go on a dinner date together. What is the old man's profession ?",
@@ -107,6 +116,22 @@ Green houses are made up of ______
 
   void awaiter() async {
     await Future.delayed(Duration(seconds: 3));
+    final CourseProvider courseProvider = CourseProvider();
+    String q2 = await courseProvider.getSectionQuery2(
+        widget.email, widget.courseName, widget.secName);
+    print("finally");
+    print("The Q2");
+    print(q2);
+    Prompts pr = Prompts();
+    String? theJSON = await pr.promptJSon(q2);
+    print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@2");
+    print(theJSON);
+    _questions = (jsonDecode(theJSON!) as List<dynamic>)
+        .map((item) => Map<String, String>.from(item))
+        .toList();
+
+    //
+
     setState(() {
       isLoading = false;
     });
@@ -492,23 +517,91 @@ Green houses are made up of ______
               ),
             ),
       floatingActionButton: !isSubmitted
-          ? FloatingActionButton.extended(
-              icon: const Icon(Icons.remove_red_eye),
-              label: const Text('See Answer'),
-              backgroundColor: Color.fromARGB(255, 182, 222, 255),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(30.0),
-              ),
-              elevation: 3.0,
-              onPressed: () {
-                // int et = calculateElapsedTime();
-                _openBottomSheet(
-                  context,
-                  0,
-                );
-              },
-            )
+          ? isLoading == false
+              ? FloatingActionButton.extended(
+                  icon: const Icon(Icons.remove_red_eye),
+                  label: const Text('See Answer'),
+                  backgroundColor: Color.fromARGB(255, 182, 222, 255),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30.0),
+                  ),
+                  elevation: 3.0,
+                  onPressed: () {
+                    openBottomSheetChoice(
+                        context, _questions[_currentIndex]['answer']!);
+                  },
+                )
+              : null
           : null,
+    );
+  }
+
+  void openBottomSheetChoice(BuildContext context, String answer) {
+    showModalBottomSheet(
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(40.0),
+        ),
+      ),
+      context: context,
+      builder: (BuildContext context) {
+        return SingleChildScrollView(
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            padding: EdgeInsets.only(
+              left: 20,
+              top: 20,
+              right: 20,
+              bottom: MediaQuery.of(context).viewInsets.bottom,
+            ),
+            decoration: const BoxDecoration(
+              borderRadius: BorderRadius.vertical(
+                top: Radius.circular(40.0),
+              ),
+              border: Border(
+                top: BorderSide(
+                  color: Color.fromARGB(255, 231, 231, 231),
+                  width: 1.0,
+                ),
+                left: BorderSide(
+                  color: Color.fromARGB(255, 231, 231, 231),
+                  width: 1.0,
+                ),
+                right: BorderSide(
+                  color: Color.fromARGB(255, 231, 231, 231),
+                  width: 1.0,
+                ),
+                bottom: BorderSide.none,
+              ),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const SizedBox(height: 16),
+                Text(
+                  "Answer:",
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                SizedBox(height: 10),
+                Text(
+                  answer,
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w300),
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

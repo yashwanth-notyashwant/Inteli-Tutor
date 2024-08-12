@@ -91,7 +91,11 @@ class _RoundedCardQuizState extends State<RoundedCardQuiz> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => QuizScreen(),
+                              builder: (context) => QuizScreen(
+                                email: widget.email,
+                                secName: widget.items[index],
+                                courseName: widget.courseName,
+                              ),
                             ),
                           );
                         },

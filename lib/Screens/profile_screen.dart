@@ -169,17 +169,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
         title: Text(
           title,
           style: TextStyle(
-            color: Color.fromARGB(255, 235, 235, 235),
+            color: Colors.grey,
+            fontSize: 14,
+            fontWeight: FontWeight.w600,
           ),
         ),
         subtitle: Text(
           subtitle,
           style: TextStyle(
+            fontSize: 15,
             color: Color.fromARGB(255, 235, 235, 235),
           ),
         ),
       ),
-    );  
+    );
   }
 
   Widget DividerWidget() {

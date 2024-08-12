@@ -17,6 +17,7 @@ class AnalysisScreen extends StatefulWidget {
 }
 
 class _AnalysisScreenState extends State<AnalysisScreen> {
+  bool isUntouched = false;
   Map<String, double> dataMapp = {
     "Completed": 50,
     "Incomplete": 50,
@@ -36,6 +37,13 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
         average += i;
         complete++;
       }
+    }
+    if (incomplete == widget.score.length) {
+      setState(() {
+        isUntouched = true;
+      });
+
+      return;
     }
     dataMapp["Completed"] = (complete / (complete + incomplete)) * 100;
     dataMapp["Incomplete"] = 100.0 - dataMapp["Completed"]!;
@@ -96,118 +104,131 @@ class _AnalysisScreenState extends State<AnalysisScreen> {
                     ],
                   ),
                 ),
-                Container(
-                  margin: const EdgeInsets.only(bottom: 60),
-                  child: Card(
-                    // color: Color.fromARGB(255, 16, 16, 16), this is a bit darker if you wanna go with this see once
-                    color: Color.fromRGBO(18, 19, 24, 1),
-                    // color: Colors.yellow,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(40.0),
-                    ),
-                    child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      padding: EdgeInsets.only(
-                          top: 60, left: 30, right: 30, bottom: 20),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: Color.fromARGB(255, 241, 239, 239),
-                            ),
-                            "Completed sections:",
-                          ).animate().fade(duration: 450.ms).slide(),
-                          const SizedBox(height: 25),
-                          PieChart(
-                            dataMap: dataMapp,
-                            animationDuration: Duration(milliseconds: 800),
-                            chartLegendSpacing: 50,
-                            chartRadius: MediaQuery.of(context).size.width / 2,
-                            colorList: const [
-                              // Colors.red,
-                              // Colors.green,
-                              // Colors.blue,
-                              // Colors.yellow,
-                              Colors.orange,
-                              Colors.pink,
-                              // Colors.purple,
-                              // Colors.amber,
-                            ],
-                            chartValuesOptions: const ChartValuesOptions(
-                              showChartValuesInPercentage: true,
-                              showChartValuesOutside: false,
-                              decimalPlaces: 1,
-                              showChartValues: true,
-                              chartValueStyle: TextStyle(
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold,
-                              ),
-                              showChartValueBackground: false,
-                            ),
-                            legendOptions: const LegendOptions(
-                              showLegendsInRow: false,
-                              legendPosition: LegendPosition.right,
-                              legendTextStyle: TextStyle(
-                                color: Color.fromARGB(255, 241, 239, 239),
-                              ),
-                            ),
-                            // centerText: "Total",
+                !isUntouched
+                    ? Container(
+                        margin: const EdgeInsets.only(bottom: 60),
+                        child: Card(
+                          // color: Color.fromARGB(255, 16, 16, 16), this is a bit darker if you wanna go with this see once
+                          color: Color.fromRGBO(18, 19, 24, 1),
+                          // color: Colors.yellow,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(40.0),
                           ),
-                          SBOX(),
-                          DividerWidget(),
-                          SBOX(),
-                          const Text(
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: Color.fromARGB(255, 241, 239, 239),
-                            ),
-                            "Average of all sections:",
-                          ).animate().fade(duration: 450.ms).slide(),
-                          const SizedBox(height: 25),
-                          Container(
+                          child: Container(
                             width: MediaQuery.of(context).size.width,
-                            child: SectionedRectangleWithPointer(
-                              selectedIndex: average,
+                            padding: EdgeInsets.only(
+                                top: 60, left: 30, right: 30, bottom: 20),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: Color.fromARGB(255, 241, 239, 239),
+                                  ),
+                                  "Completed sections:",
+                                ).animate().fade(duration: 450.ms).slide(),
+                                const SizedBox(height: 25),
+                                PieChart(
+                                  dataMap: dataMapp,
+                                  animationDuration:
+                                      Duration(milliseconds: 800),
+                                  chartLegendSpacing: 50,
+                                  chartRadius:
+                                      MediaQuery.of(context).size.width / 2,
+                                  colorList: const [
+                                    // Colors.red,
+                                    // Colors.green,
+                                    // Colors.blue,
+                                    // Colors.yellow,
+                                    Colors.orange,
+                                    Colors.pink,
+                                    // Colors.purple,
+                                    // Colors.amber,
+                                  ],
+                                  chartValuesOptions: const ChartValuesOptions(
+                                    showChartValuesInPercentage: true,
+                                    showChartValuesOutside: false,
+                                    decimalPlaces: 1,
+                                    showChartValues: true,
+                                    chartValueStyle: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                    showChartValueBackground: false,
+                                  ),
+                                  legendOptions: const LegendOptions(
+                                    showLegendsInRow: false,
+                                    legendPosition: LegendPosition.right,
+                                    legendTextStyle: TextStyle(
+                                      color: Color.fromARGB(255, 241, 239, 239),
+                                    ),
+                                  ),
+                                  // centerText: "Total",
+                                ),
+                                SBOX(),
+                                DividerWidget(),
+                                SBOX(),
+                                const Text(
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: Color.fromARGB(255, 241, 239, 239),
+                                  ),
+                                  "Average of all sections:",
+                                ).animate().fade(duration: 450.ms).slide(),
+                                const SizedBox(height: 25),
+                                Container(
+                                  width: MediaQuery.of(context).size.width,
+                                  child: SectionedRectangleWithPointer(
+                                    selectedIndex: average,
+                                  ),
+                                ),
+                                SBOX(),
+                                DividerWidget(),
+                                SBOX(),
+                                const Text(
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: Color.fromARGB(255, 241, 239, 239),
+                                  ),
+                                  "Score distribution:",
+                                ).animate().fade(duration: 450.ms).slide(),
+                                SBOX(),
+                                SBOX(),
+                                Container(
+                                    height: 200,
+                                    width: MediaQuery.of(context).size.width,
+                                    child: BarGraph(
+                                      list: replacedNumbers,
+                                    )),
+                                SBOX(),
+                                DividerWidget(),
+                                SBOX(),
+                                SizedBox(
+                                  height: 40,
+                                ),
+                                Container(
+                                    height: 200,
+                                    width: MediaQuery.of(context).size.width,
+                                    child: LineGraph(
+                                      list: replacedNumbers,
+                                    )),
+                              ],
                             ),
                           ),
-                          SBOX(),
-                          DividerWidget(),
-                          SBOX(),
-                          const Text(
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: Color.fromARGB(255, 241, 239, 239),
-                            ),
-                            "Score distribution:",
-                          ).animate().fade(duration: 450.ms).slide(),
-                          SBOX(),
-                          SBOX(),
-                          Container(
-                              height: 200,
-                              width: MediaQuery.of(context).size.width,
-                              child: BarGraph(
-                                list: replacedNumbers,
-                              )),
-                          SBOX(),
-                          DividerWidget(),
-                          SBOX(),
-                          SizedBox(
-                            height: 40,
+                        ),
+                      )
+                    : Container(
+                        padding: EdgeInsets.only(
+                            top: MediaQuery.of(context).size.height * 0.3),
+                        child: const Center(
+                          child: Text(
+                            "Please attend the quiz to view this screen",
+                            style: TextStyle(color: Colors.white),
                           ),
-                          Container(
-                              height: 200,
-                              width: MediaQuery.of(context).size.width,
-                              child: LineGraph(
-                                list: replacedNumbers,
-                              )),
-                        ],
+                        ),
                       ),
-                    ),
-                  ),
-                ),
               ],
             ),
           ),

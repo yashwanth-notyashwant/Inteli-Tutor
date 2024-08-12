@@ -111,7 +111,7 @@ class _CourseSecionsScreenState extends State<CourseSecionsScreen> {
             // ),
             buildCourseSectionsQuiz(context),
             AnalysisScreen(
-              score: [9, 6, 0, -1, -1, 0, 9, 0],
+              score: [-1, -1, -1, -1, -1, -1, -1, -1],
             ),
             ProfileScreen(emailId: widget.email.toString()),
           ],
